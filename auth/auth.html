@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bardle - Entrar</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+  <!-- fundo fixo com imagem estilizada -->
+  <div class="background"></div>
+
+  <!-- container principal da tela de autenticação -->
+  <main class="auth-container">
+    <!-- logotipo do app -->
+    <img src="./assets/bardle.png" alt="Logo Bardle" class="logo">
+    <!-- nome do aplicativo -->
+    <h1 class="app-name">BARDLE</h1>
+
+    <!-- tela de boas-vindas inicial -->
+    <section id="welcome-screen" class="panel">
+      <h2 class="welcome-text">Bem-vindo ao Bardle, sua nova forma interativa de descobrir músicas! </h2>
+      <button id="enter-btn" class="primary">Entre já!</button>
+    </section>
+
+    <!-- formulário de login -->
+    <section id="login-form" class="panel hidden">
+      <h2>Entrar</h2>
+      <!-- campo de e-mail -->
+      <input type="email" id="login-email" placeholder="E-mail">
+      <!-- campo de senha -->
+      <input type="password" id="login-password" placeholder="Senha">
+      <!-- botão principal de login -->
+      <button id="login-btn" class="primary">Entrar</button>
+
+      <!-- botão para login com google -->
+      <button id="google-btn" class="google-btn">
+        <img src="./assets/google-icon.svg" alt="Google"> Entrar com Google
+      </button>
+
+      <!-- link para redirecionar ao cadastro -->
+      <p class="link">Não tem conta? <span id="to-register">Cadastre-se já!</span></p>
+      <!-- área de feedback de login -->
+      <p id="feedback-login" class="feedback"></p>
+    </section>
+
+    <!-- formulário de cadastro -->
+    <section id="register-form" class="panel hidden">
+      <!-- cabeçalho com botão de voltar -->
+      <div class="register-header">
+        <button id="back-arrow" title="Voltar">&#8592;</button>
+        <h2>Criar Conta</h2>
+      </div>
+
+      <!-- campos de cadastro -->
+      <input type="text" id="reg-nick" placeholder="Nickname">
+      <input type="email" id="reg-email" placeholder="E-mail">
+      <input type="password" id="reg-password" placeholder="Senha">
+      <input type="url" id="reg-img" placeholder="URL da imagem de perfil">
+
+      <!-- botão de envio do cadastro -->
+      <button id="register-btn" class="primary">Cadastrar</button>
+      <!-- área de feedback do cadastro -->
+      <p id="feedback-register" class="feedback"></p>
+    </section>
+  </main>
+
+  <!-- script principal da autenticação -->
+  <script type="module" src="auth.js"></script>
+</body>
+</html>

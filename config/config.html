@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bardle | Configurações</title>
+
+  <link rel="stylesheet" href="config.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+  <!-- ===== TOP BAR ===== -->
+  <header class="top-bar glass">
+    <div class="logo-area">
+      <img src="../musicas/assets/bardle.png" alt="Logo Bardle" class="logo" />
+      <h1 class="app-name">BARDLE</h1>
+    </div>
+
+    <!-- engrenagem destacada -->
+    <button class="settings-btn active" title="Configurações">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+  </header>
+
+  <!-- ===== CONTEÚDO ===== -->
+  <main class="config-container">
+
+    <!-- CONFIGURAÇÕES -->
+    <section class="glass-card section-config">
+      <h2><i class="fa-solid fa-sliders"></i> Configurações do App</h2>
+      <div class="config-section">
+        <label><i class="fa-solid fa-bell"></i> Notificações
+          <input type="checkbox" id="notif-toggle" />
+        </label>
+        <label><i class="fa-solid fa-moon"></i> Modo Escuro
+          <input type="checkbox" id="darkmode-toggle" />
+        </label>
+        <label><i class="fa-solid fa-volume-high"></i> Sons de Interface
+          <input type="checkbox" id="sound-toggle" />
+        </label>
+        <label><i class="fa-solid fa-arrow-rotate-right"></i> Atualizações Automáticas
+          <input type="checkbox" id="auto-update-toggle" />
+        </label>
+      </div>
+    </section>
+
+    <!-- SUPORTE -->
+    <section class="glass-card section-support">
+      <h2><i class="fa-solid fa-headset"></i> Suporte</h2>
+      <form id="support-form" class="config-section">
+        <label for="support-subject"><i class="fa-solid fa-pencil"></i> Assunto:</label>
+        <input type="text" id="support-subject" placeholder="Digite o assunto" required />
+
+        <label for="support-message"><i class="fa-solid fa-comment-dots"></i> Mensagem:</label>
+        <textarea id="support-message" placeholder="Descreva o problema ou dúvida" rows="4" required></textarea>
+
+        <button type="submit" id="send-support"><i class="fa-solid fa-paper-plane"></i> Enviar</button>
+      </form>
+    </section>
+
+    <!-- SOBRE -->
+    <section class="glass-card section-about">
+      <h2><i class="fa-solid fa-info-circle"></i> Sobre o App</h2>
+      <div class="config-section about">
+        <p><strong>Bardle</strong> é um aplicativo educativo e divertido para amantes de música.</p>
+        <p><strong>Criadores:</strong> Pedro Paulo & Equipe Bardle</p>
+        <p><strong>Versão:</strong> 1.0.0</p>
+        <p><strong>Site oficial:</strong> <a href="https://bardleapp.com" target="_blank">bardleapp.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="bottom-nav glass">
+    <button class="nav-btn" id="home-btn">
+      <i class="fa-solid fa-house"></i>
+      <span>Início</span>
+    </button>
+
+    <button class="nav-btn" id="music-btn">
+      <i class="fa-solid fa-music"></i>
+      <span>Músicas</span>
+    </button>
+
+    <button class="nav-btn" id="profile-btn">
+      <img id="profile-icon" src="../musicas/assets/placeholder_cover.jpg" alt="Perfil" />
+      <span>Perfil</span>
+    </button>
+  </nav>
+
+  <!-- ===== TOASTS ===== -->
+  <div id="toast-container"></div>
+
+  <script type="module" src="config.js"></script>
+</body>
+</html>

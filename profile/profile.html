@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- define o tipo do documento e idioma principal -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bardle | Perfil</title>
+
+  <!-- importa o css principal da página de perfil -->
+  <link rel="stylesheet" href="profile.css" />
+
+  <!-- importa os ícones da biblioteca font awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body>
+  <!-- ===== TOPO ===== -->
+  <!-- barra superior com logo e botão de configurações -->
+  <header class="top-bar glass">
+    <div class="logo-area">
+      <!-- logo principal do app -->
+      <img src="assets/bardle.png" alt="Logo Bardle" class="logo" />
+      <h1 class="app-name">BARDLE</h1>
+    </div>
+
+    <!-- botão de configurações no canto direito -->
+    <button class="settings-btn" title="Configurações">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+  </header>
+
+  <!-- ===== PERFIL ===== -->
+  <!-- seção principal do perfil com informações do usuário -->
+  <main class="profile-container">
+    <div class="glass-card">
+      <!-- imagem de perfil do usuário -->
+      <img id="user-photo" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Foto de Perfil" class="profile-pic" />
+      
+      <!-- nome e email do usuário -->
+      <h1 id="user-name">Carregando...</h1>
+      <p id="user-email">email@exemplo.com</p>
+
+      <!-- campos para edição de informações do perfil -->
+      <div class="profile-actions">
+        <label for="new-name">Nome:</label>
+        <input type="text" id="new-name" placeholder="Novo nome" />
+
+        <label for="new-photo">Foto (URL):</label>
+        <input type="text" id="new-photo" placeholder="Link da nova foto" />
+
+        <label for="new-password">Nova senha:</label>
+        <input type="password" id="new-password" placeholder="Mínimo 6 caracteres" />
+
+        <!-- botão para salvar alterações -->
+        <button id="save-changes">Salvar alterações</button>
+      </div>
+
+      <!-- botão para sair da conta -->
+      <div class="logout-section">
+        <button id="logout" class="logout-btn" title="Sair da conta">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== MODAL LOGOUT ===== -->
+  <!-- janela modal exibida ao tentar sair da conta -->
+  <div id="logout-modal" class="modal hidden">
+    <div class="modal-content glass">
+      <h2>Deseja sair da conta?</h2>
+      <div class="modal-buttons">
+        <button id="confirm-logout" class="confirm">Sim</button>
+        <button id="cancel-logout" class="cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NAV INFERIOR ===== -->
+  <!-- barra de navegação fixa no rodapé -->
+  <nav class="bottom-nav glass">
+    <button class="nav-btn" id="home-btn">
+      <i class="fa-solid fa-house"></i>
+      <span>Início</span>
+    </button>
+
+    <button class="nav-btn" id="music-btn">
+      <i class="fa-solid fa-music"></i>
+      <span>Músicas</span>
+    </button>
+
+    <button class="nav-btn active" id="profile-btn">
+      <img id="profile-icon" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Perfil" />
+      <span>Perfil</span>
+    </button>
+  </nav>
+
+  <!-- container para mensagens toast -->
+  <div id="toast-container"></div>
+
+  <!-- script principal do perfil -->
+  <script type="module" src="profile.js"></script>
+
+  <script>
+    // ===== Navegação Top-Bar / Bottom-Nav =====
+    // manipula a navegação entre páginas do app
+    const logoArea = document.querySelector(".logo-area");
+    const settingsBtn = document.querySelector(".settings-btn");
+    const homeBtn = document.getElementById("home-btn");
+    const musicBtn = document.getElementById("music-btn");
+    const profileBtn = document.getElementById("profile-btn");
+
+    // redireciona ao clicar na logo
+    logoArea.addEventListener("click", () => window.location.href = "../home/home.html");
+    // redireciona para a página de configurações
+    settingsBtn.addEventListener("click", () => window.location.href = "../configuracoes/config.html");
+    // redireciona para a página inicial
+    homeBtn.addEventListener("click", () => window.location.href = "../home/home.html");
+    // redireciona para a página de músicas
+    musicBtn.addEventListener("click", () => window.location.href = "../musicas/musicas.html");
+    // recarrega a página de perfil
+    profileBtn.addEventListener("click", () => window.location.href = "../profile/profile.html");
+  </script>
+</body>
+</html>

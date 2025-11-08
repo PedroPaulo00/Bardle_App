@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bardle | Home</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="home.css" />
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    crossorigin="anonymous"
+  />
+
+  <!-- JS -->
+  <script type="module" src="home.js" defer></script>
+</head>
+<body>
+  <!-- ===== TOP BAR ===== -->
+  <header class="top-bar glass">
+    <div class="logo-area" id="logo-home">
+      <img src="../auth/assets/bardle.png" alt="Logo Bardle" class="logo">
+      <h1 class="app-name">BARDLE</h1>
+    </div>
+    <button class="settings-btn" id="settings-btn" title="Configurações">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+  </header>
+
+  <!-- ===== CONTEÚDO ===== -->
+  <main class="content">
+    <button class="play-btn glass" id="play-btn">Jogar</button>
+
+    <section class="user-section glass">
+      <img id="profile-img-section" src="../assets/user-placeholder.jpg" alt="Perfil" class="user-img">
+      <h1 id="welcome-msg">Olá, Usuário!</h1>
+      <h3 id="daily-score">Sua pontuação de hoje: 0</h3>
+    </section>
+
+    <section class="rules-section glass">
+      <h2>Regras do Jogo</h2>
+      <p>Descubra a música certa em menos tentativas possíveis. Use dicas de letra e gênero para adivinhar o artista ou título!</p>
+    </section>
+
+    <section class="ranking-section glass">
+      <h2>Ranking Diário</h2>
+      <ol id="ranking-list">
+        <!-- Rankings preenchidos via JS -->
+      </ol>
+    </section>
+  </main>
+
+  <!-- ===== BOTTOM NAV ===== -->
+  <nav class="bottom-nav glass">
+    <button class="nav-btn active" id="home-btn">
+      <i class="fa-solid fa-house"></i>
+      <span>Início</span>
+    </button>
+
+    <button class="nav-btn" id="music-btn">
+      <i class="fa-solid fa-music"></i>
+      <span>Músicas</span>
+    </button>
+
+    <button class="nav-btn" id="profile-btn">
+      <img id="profile-img" src="../assets/user-placeholder.jpg" alt="Perfil" />
+      <span>Perfil</span>
+    </button>
+  </nav>
+</body>
+</html>

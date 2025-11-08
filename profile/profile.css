@@ -1,0 +1,274 @@
+/* define a fonte personalizada 'NewRodin' usada em todo o app */
+@font-face {
+  font-family: 'NewRodin';
+  src: url('/musicas/assets/NewRodin.otf') format('opentype');
+}
+
+/* remove margens e espaçamentos padrão e aplica box-sizing para facilitar o controle de layout */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* define estilo base da página, incluindo imagem de fundo e fonte */
+html, body {
+  height: 100%;
+  font-family: 'NewRodin', sans-serif;
+  background: url("assets/app_background.jpg") center/cover no-repeat;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* cria o efeito glass com transparência e desfoque para elementos principais */
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+}
+
+/* barra superior fixa com logo e botão de configurações */
+.top-bar {
+  position: fixed;
+  top: 10px;
+  left: 5%;
+  width: 90%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  z-index: 10;
+}
+
+/* define o agrupamento do logo e nome do app */
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* define tamanho do ícone do logo */
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* estiliza o nome do aplicativo na barra superior */
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* botão de configurações no canto direito da barra superior */
+.settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+/* container central que alinha o cartão de perfil verticalmente */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding-top: 100px; /* espaço abaixo da top-bar */
+  padding-bottom: 100px; /* espaço acima da bottom-nav */
+}
+
+/* cartão de vidro que contém informações e ações do perfil */
+.glass-card {
+  width: 320px;
+  padding: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+}
+
+/* imagem de perfil redonda com sombra */
+.profile-pic {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* área que contém os campos e botões do perfil */
+.profile-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+/* rótulos dos campos de edição do perfil */
+.profile-actions label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* campos de entrada com transparência e cantos arredondados */
+.profile-actions input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  outline: none;
+}
+
+/* botão para salvar alterações de perfil */
+#save-changes {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #00ffc6;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* muda o tom do botão ao passar o mouse */
+#save-changes:hover {
+  background: #00e0b3;
+}
+
+/* botão de logout vermelho abaixo das ações */
+.logout-btn {
+  margin-top: 15px;
+  background: none;
+  border: none;
+  color: #ff5555;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* estilo geral do modal de confirmação */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* oculta elementos que devem estar invisíveis */
+.hidden { display: none; }
+
+/* conteúdo interno do modal com efeito glass */
+.modal-content {
+  padding: 20px;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px) saturate(180%);
+}
+
+/* organização dos botões dentro do modal */
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+/* estilo base dos botões do modal */
+.modal-buttons button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+/* botão confirmar verde água */
+.confirm { background: #00ffc6; color: #000; }
+
+/* botão cancelar vermelho */
+.cancel { background: #ff5555; color: #fff; }
+
+/* barra de navegação inferior fixa com ícones */
+.bottom-nav {
+  position: fixed;
+  bottom: 10px;
+  left: 5%;
+  width: 90%;
+  height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* estilo base dos botões da barra inferior */
+.nav-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+}
+
+/* ícones dos botões de navegação */
+.nav-btn i {
+  font-size: 1.4rem;
+}
+
+/* imagem de perfil pequena na barra inferior */
+.nav-btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* destaca botão ativo na barra inferior com cor e brilho */
+.nav-btn.active span,
+.nav-btn.active i {
+  color: #00ffc6;
+  text-shadow: 0 0 10px #00ffc6;
+  font-weight: bold;
+}
+
+/* aumenta levemente o botão ao passar o mouse */
+.nav-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ajustes para telas pequenas, mantendo proporções e espaçamentos */
+@media(max-width:480px){
+  .top-bar, .bottom-nav {
+    left: 2%;
+    width: 96%;
+  }
+  .profile-container { padding-top: 90px; padding-bottom: 90px; }
+  .glass-card { width: 90%; padding: 20px; }
+}

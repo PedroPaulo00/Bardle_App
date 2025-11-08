@@ -1,0 +1,155 @@
+<!-- define o tipo de documento e a língua principal -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- define a codificação e ajusta a página para ser responsiva -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bardle | Jogo</title>
+
+  <!-- importa o css principal do jogo -->
+  <link rel="stylesheet" href="game.css" />
+
+  <!-- importa ícones do font awesome (mesma versão usada nas outras telas) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    crossorigin="anonymous"
+  />
+</head>
+
+<body>
+  <!-- ===== TOPO DO APP ===== -->
+  <!-- barra superior fixa que mostra o logo e o nome do app -->
+  <header class="top-bar glass">
+    <div class="logo-area" aria-hidden="true">
+      <img src="assets/bardle.png" alt="Bardle logo" class="logo" />
+      <h1 class="app-name">BARDLE</h1>
+    </div>
+  </header>
+
+  <!-- ===== ÁREA PRINCIPAL DO JOGO ===== -->
+  <main class="game-container" role="main">
+    <!-- mostra a rodada atual e o tempo restante -->
+    <div class="game-header glass-highlight">
+      <div class="round-info">
+        <span id="round-indicator">Rodada 1 / 10</span>
+
+        <!-- barra de progresso das rodadas com 10 bolinhas -->
+        <div id="round-strip" class="round-strip">
+          <div class="round-pill" data-i="1"></div>
+          <div class="round-pill" data-i="2"></div>
+          <div class="round-pill" data-i="3"></div>
+          <div class="round-pill" data-i="4"></div>
+          <div class="round-pill" data-i="5"></div>
+          <div class="round-pill" data-i="6"></div>
+          <div class="round-pill" data-i="7"></div>
+          <div class="round-pill" data-i="8"></div>
+          <div class="round-pill" data-i="9"></div>
+          <div class="round-pill" data-i="10"></div>
+        </div>
+      </div>
+
+      <!-- bloco do timer que exibe contagem regressiva -->
+      <div class="timer-block">
+        <div id="timer" class="timer">60s</div>
+      </div>
+    </div>
+
+    <!-- ===== CAPA E ARTISTA ===== -->
+    <!-- mostra a capa da música e o artista atual -->
+    <section class="now-playing glass">
+      <div class="cover-wrap">
+        <!-- imagem da capa do som atual -->
+        <img
+          id="cover-img"
+          src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg"
+          alt="Capa da música"
+          class="cover-img"
+        />
+
+        <!-- avatar do artista posicionado sobre a capa -->
+        <img
+          id="artist-img"
+          src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg"
+          alt="Imagem do artista"
+          class="artist-avatar"
+        />
+      </div>
+
+      <!-- nomes e título da faixa -->
+      <div class="track-info">
+        <h2 id="artist-name">Artista</h2>
+        <h3 id="track-title">Título da música (oculto até o fim)</h3>
+      </div>
+
+      <!-- barra que mostra o progresso da reprodução -->
+      <div class="music-progress-wrapper">
+        <div class="music-progress">
+          <div id="music-progress-fill" class="music-progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== OPÇÕES DE RESPOSTA ===== -->
+    <section class="options-panel glass">
+      <!-- grupo de botões de múltipla escolha -->
+      <div id="options" class="options">
+        <button class="option-btn" data-index="0">
+          <span class="option-text">Opção A</span>
+        </button>
+        <button class="option-btn" data-index="1">
+          <span class="option-text">Opção B</span>
+        </button>
+        <button class="option-btn" data-index="2">
+          <span class="option-text">Opção C</span>
+        </button>
+        <button class="option-btn" data-index="3">
+          <span class="option-text">Opção D</span>
+        </button>
+      </div>
+
+      <!-- mostra o feedback de acerto, erro ou tempo esgotado -->
+      <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+
+      <!-- botões que aparecem depois da resposta -->
+      <div class="round-actions">
+        <button id="next-round-btn" class="btn primary hidden">
+          Próxima Rodada
+        </button>
+        <button id="add-to-playlist-btn" class="btn secondary hidden">
+          <i class="fa-solid fa-plus"></i> Adicionar à Playlist
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== MODAL FINAL ===== -->
+  <!-- aparece no fim do jogo mostrando o resultado -->
+  <div
+    id="final-modal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="end-title"
+  >
+    <div class="modal-content glass">
+      <h2 id="end-title">Resumo do Jogo</h2>
+      <p id="final-score">Você acertou X/10 — Pontuação: 0</p>
+
+      <!-- botões para reiniciar ou sair -->
+      <div class="modal-buttons">
+        <button id="play-again-btn" class="btn primary">Jogar Novamente</button>
+        <button id="go-home-btn" class="btn secondary">Ir para Início</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOASTS ===== -->
+  <!-- área onde aparecem notificações rápidas -->
+  <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- importa o script principal do jogo -->
+  <script type="module" src="./game.js"></script>
+</body>
+</html>

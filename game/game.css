@@ -1,0 +1,462 @@
+/* define a fonte personalizada usada em todo o app */
+@font-face {
+  font-family: 'NewRodin';
+  src: url('/musicas/assets/NewRodin.otf') format('opentype');
+}
+
+/* ===== RESET ===== */
+/* remove margens e paddings padrões e ativa o box-sizing global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* define a base do layout e o fundo principal do app */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'NewRodin', sans-serif;
+  background: url("assets/app_background.jpg") center/cover no-repeat;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== EFEITO GLASS ===== */
+/* aplica efeito de vidro translúcido e sombra suave */
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px) saturate(180%);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.25);
+}
+
+/* versão mais intensa do efeito glass */
+.glass-highlight {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(18px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+}
+
+/* ===== TOP BAR ===== */
+/* posiciona a barra superior fixa igual às outras telas */
+.top-bar {
+  position: fixed;
+  top: 10px;
+  left: 5%;
+  width: 90%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* área do logo e nome do app */
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* define tamanho do ícone de logo */
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* define estilo do nome do app */
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* ===== ÁREA PRINCIPAL ===== */
+/* centraliza o conteúdo principal do jogo */
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 100px;
+  gap: 20px;
+}
+
+/* ===== HEADER DO JOGO ===== */
+/* contém informações de rodada e tempo */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  padding: 10px 15px;
+}
+
+/* informações do progresso da rodada */
+.round-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* indicador textual da rodada */
+#round-indicator {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* barra de progresso de rodadas */
+.round-strip {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-start;
+}
+
+/* bolinhas das rodadas */
+.round-pill {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transition: 0.3s;
+}
+
+/* bolinha ativa */
+.round-pill.active {
+  background: #00bfff;
+  box-shadow: 0 0 10px #00bfff;
+}
+
+/* bolinha de acerto */
+.round-pill.correct {
+  background: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+}
+
+/* bolinha de erro */
+.round-pill.wrong {
+  background: #ff4444;
+  box-shadow: 0 0 10px #ff4444;
+}
+
+/* ===== TIMER ===== */
+/* bloco de tempo e estilo principal */
+.timer-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* texto do contador regressivo */
+.timer {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+  transition: 0.2s;
+}
+
+/* estado de aviso quando o tempo está acabando */
+.timer.warning {
+  color: #ff4c4c;
+  animation: shake 0.8s infinite;
+}
+
+/* ===== SHAKE EFFECT ===== */
+/* animação de tremor usada no timer */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+}
+
+/* ===== CAPA E ARTISTA ===== */
+/* centraliza capa e artista da música */
+.now-playing {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  gap: 10px;
+}
+
+/* moldura da capa com sombra */
+.cover-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+/* imagem da capa */
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* avatar do artista sobre a capa */
+.artist-avatar {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* informações de nome e título */
+.track-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* nome do artista */
+#artist-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+/* título da faixa */
+#track-title {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* ===== BARRA DE PROGRESSO ===== */
+/* estrutura visual da barra */
+.music-progress-wrapper {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.music-progress {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* preenchimento animado da barra */
+.music-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00ffc6, #00bfff);
+  transition: width 0.3s linear;
+}
+
+/* ===== OPÇÕES ===== */
+/* painel que contém as alternativas do jogo */
+.options-panel {
+  width: 90%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* lista de botões de resposta */
+.options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+/* estilo base dos botões */
+.option-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s;
+  backdrop-filter: blur(8px);
+}
+
+/* efeito ao passar o mouse */
+.option-btn:hover {
+  transform: scale(1.02);
+  background: rgba(255,255,255,0.3);
+}
+
+/* resposta correta */
+.option-btn.correct {
+  background: #00ff88;
+  color: #000;
+}
+
+/* resposta errada */
+.option-btn.wrong {
+  background: #ff4444;
+}
+
+/* botão desativado */
+.option-btn.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ===== FEEDBACK ===== */
+/* mensagem abaixo das respostas */
+.feedback {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(0,0,0,0.4);
+}
+
+/* cores para cada tipo de retorno */
+.feedback.correct { color: #00ff88; }
+.feedback.wrong { color: #ff4444; }
+.feedback.timeout { color: #ffcc00; }
+
+.hidden, .visually-hidden { display: none !important; }
+
+/* ===== BOTÕES DE RODADA ===== */
+/* controla botões após a rodada */
+.round-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* estilo base dos botões de ação */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* botão principal (ex: próxima música) */
+.btn.primary {
+  background: #00ffc6;
+  color: #000;
+}
+
+/* efeito hover do botão principal */
+.btn.primary:hover {
+  background: #00e0b3;
+}
+
+/* botão secundário (ex: voltar ou sair) */
+.btn.secondary {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+
+/* efeito hover do botão secundário */
+.btn.secondary:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* ===== MODAL FINAL ===== */
+/* sobreposição escura e centralização */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* conteúdo interno do modal */
+.modal-content {
+  padding: 20px;
+  text-align: center;
+  color: white;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(14px) saturate(180%);
+  width: 85%;
+  max-width: 350px;
+}
+
+/* botões dentro do modal */
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* ===== TOASTS ===== */
+/* define área onde aparecem os toasts */
+#toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 999;
+}
+
+/* estilo de cada toast individual */
+.toast {
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  animation: fadeInOut 3s ease forwards;
+}
+
+/* animação de entrada e saída do toast */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+/* ajustes para telas menores (celulares) */
+@media (max-width: 480px) {
+  .top-bar {
+    left: 2%;
+    width: 96%;
+  }
+  .game-container {
+    padding-top: 90px;
+  }
+  .cover-wrap {
+    width: 220px;
+    height: 220px;
+  }
+  #artist-name { font-size: 1.1rem; }
+  #track-title { font-size: 0.9rem; }
+}
