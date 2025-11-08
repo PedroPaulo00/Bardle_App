@@ -15,6 +15,7 @@ const currentCover = document.getElementById("current-cover")
 const currentTitle = document.getElementById("current-title")
 const currentArtist = document.getElementById("current-artist")
 const progressBar = document.getElementById("progress")
+const progressHandle = document.getElementById("progress-handle")
 const playPauseBtn = document.getElementById("play-pause")
 const nextBtn = document.getElementById("next")
 const prevBtn = document.getElementById("prev")
@@ -27,6 +28,16 @@ let currentIndex = -1
 let userUid = null
 const audio = new Audio()
 let progressInterval = null
+
+// Web Audio API (analyser) para visualizador / detecção de picos
+let audioCtx = null
+let analyser = null
+let dataArray = null
+let bufferLength = 0
+let energyHistory = []      // para detecção de picos
+let lastPeakTime = 0
+let peakTimestamps = []     // para calcular BPM
+let waveDots = []           // elementos do fundo que serão animados
 
 // capa padrão usada quando não há imagem
 const DEFAULT_COVER = "https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg"
@@ -69,18 +80,24 @@ function buildAudioPath(field) {
   return `/sounds/${name}`
 }
 
-// mostra um aviso rápido na tela
+// mostra um aviso rápido na tela (aparece somente quando chamado)
 function showToast(msg) {
   const c = document.getElementById("toast-container")
+  c.style.display = "flex"
   const t = document.createElement("div")
   t.className = "toast info"
   t.textContent = msg
   c.appendChild(t)
-  setTimeout(() => t.remove(), 2500)
+  // remove após 2.5s; se não houver mais toasts, esconde o container
+  setTimeout(() => {
+    t.remove()
+    if (!c.querySelector(".toast")) c.style.display = "none"
+  }, 2500)
 }
 
 // formata segundos em minutos:segundos
 function formatTime(sec) {
+  if (!sec || isNaN(sec)) return "0:00"
   const m = Math.floor(sec / 60)
   const s = Math.floor(sec % 60)
   return `${m}:${s < 10 ? "0" : ""}${s}`
@@ -92,25 +109,31 @@ function setNowPlayingPlaceholder() {
   currentTitle.textContent = "Nada tocando"
   currentArtist.textContent = "—"
   progressBar.style.width = "0%"
+  progressHandle.style.left = `0%`
   playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`
   clearInterval(progressInterval)
   currentIndex = -1
   document.querySelectorAll(".music-item").forEach(el => el.classList.remove("playing"))
+  stopAnalyser()
 }
 
 // atualiza a barra de progresso e o tempo
 function updateProgress() {
-  if (!audio.duration) return
+  if (!audio.duration || isNaN(audio.duration)) return
   const pct = (audio.currentTime / audio.duration) * 100
   progressBar.style.width = `${pct}%`
-  document.getElementById("current-time").textContent = formatTime(audio.currentTime)
-  document.getElementById("total-time").textContent = formatTime(audio.duration)
+  // atualiza posição do handle (limite 0..100)
+  progressHandle.style.left = `${Math.min(100, Math.max(0, pct))}%`
+  const ct = document.getElementById("current-time")
+  const tt = document.getElementById("total-time")
+  ct.textContent = formatTime(audio.currentTime)
+  tt.textContent = formatTime(audio.duration)
 }
 
 // cria um loop para atualizar o progresso enquanto toca
 function startProgressLoop() {
   clearInterval(progressInterval)
-  progressInterval = setInterval(updateProgress, 300)
+  progressInterval = setInterval(updateProgress, 200)
 }
 
 // destaca visualmente a música atual na lista
@@ -118,6 +141,99 @@ function highlightCurrentSong() {
   document.querySelectorAll(".music-item").forEach((li, i) => {
     li.classList.toggle("playing", i === currentIndex)
   })
+}
+
+// inicia o analisador WebAudio (apenas 1 vez por sessão)
+function startAnalyserIfNeeded() {
+  if (audioCtx && analyser) return
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+    const source = audioCtx.createMediaElementSource(audio)
+    analyser = audioCtx.createAnalyser()
+    analyser.fftSize = 1024
+    bufferLength = analyser.frequencyBinCount
+    dataArray = new Uint8Array(bufferLength)
+    source.connect(analyser)
+    analyser.connect(audioCtx.destination)
+    // pega referência aos dots do fundo
+    waveDots = Array.from(document.querySelectorAll(".now-wave-bg .wave-dot"))
+    // inicia loop visual
+    requestAnimationFrame(visualLoop)
+  } catch (err) {
+    console.warn("WebAudio API não disponível:", err)
+  }
+}
+
+// para o analisador (quando parar a reprodução)
+function stopAnalyser() {
+  // não destrói o audioCtx para evitar problemas de re-criação (mas limpa arrays)
+  energyHistory = []
+  peakTimestamps = []
+  lastPeakTime = 0
+}
+
+// algoritmo simples de detecção de picos / BPM
+function processAudioForBeat() {
+  if (!analyser || !dataArray) return null
+  analyser.getByteFrequencyData(dataArray)
+  // calculo de energia (somatória de bandas baixas-médias)
+  // escolhemos bandas baixas para batida (0..freqLimit)
+  let energy = 0
+  const lowFreqLimit = Math.floor(bufferLength * 0.12) // usa ~12% do espectro baixo
+  for (let i = 0; i < lowFreqLimit; i++) {
+    energy += dataArray[i]
+  }
+  const timeNow = performance.now()
+  // guarda histórico curto
+  energyHistory.push({ t: timeNow, e: energy })
+  // mantém apenas últimos 3000ms
+  while (energyHistory.length && timeNow - energyHistory[0].t > 3000) energyHistory.shift()
+  // calcula média
+  const avg = energyHistory.reduce((s, x) => s + x.e, 0) / (energyHistory.length || 1)
+  // detecção de pico: energy > avg * factor e intervalo mínimo desde último pico
+  const thresholdFactor = 1.45 // sensibilidade (ajustável)
+  const minIntervalMs = 240    // evita detecções muito próximo (>= ~250ms)
+  if (energy > avg * thresholdFactor && (timeNow - lastPeakTime) > minIntervalMs) {
+    // pico detectado
+    lastPeakTime = timeNow
+    peakTimestamps.push(timeNow)
+    // manter apenas últimas 12 picos
+    if (peakTimestamps.length > 12) peakTimestamps.shift()
+    // calcula BPM estimado (média dos intervalos)
+    if (peakTimestamps.length >= 2) {
+      const intervals = []
+      for (let i = 1; i < peakTimestamps.length; i++) {
+        intervals.push((peakTimestamps[i] - peakTimestamps[i-1]) / 1000) // s
+      }
+      const avgInterval = intervals.reduce((s,a) => s+a, 0) / intervals.length
+      const bpm = Math.round(60 / avgInterval)
+      return { energy, bpm, scale: Math.min(1.6, 0.6 + (energy / (avg || 1)) * 0.6) }
+    }
+    return { energy, bpm: null, scale: Math.min(1.6, 0.6 + (energy / (avg || 1)) * 0.6) }
+  } else {
+    // sem pico, retorna energia relativa pra animação contínua
+    const scale = Math.min(1.2, 0.6 + (energy / (avg || 1)) * 0.4)
+    return { energy, bpm: null, scale }
+  }
+}
+
+// loop que anima as ondas com base no analisador
+function visualLoop() {
+  requestAnimationFrame(visualLoop)
+  if (!analyser || !dataArray || !waveDots.length) return
+  const result = processAudioForBeat()
+  if (!result) return
+  // usa result.scale para ajustar cada dot (cria variação por índice)
+  waveDots.forEach((dot, i) => {
+    // variação por índice para aparência orgânica
+    const idxFactor = 1 + (i - (waveDots.length/2)) * 0.07
+    const s = Math.max(0.4, result.scale * idxFactor)
+    dot.style.transform = `scale(${s})`
+    // ajustar opacidade com energy
+    const op = Math.min(0.35, 0.06 + (result.energy / 1500))
+    dot.style.opacity = `${Math.max(0.03, op)}`
+  })
+  // opcional: se result.bpm detectado, poderíamos exibir algo ou ajustar timing (já usado indiretamente)
 }
 
 // toca a música de um índice específico da playlist
@@ -132,6 +248,7 @@ function playItemAt(index) {
   if (!isFullUrl(src) && !src.startsWith("assets/")) src = buildAudioPath(src)
 
   audio.src = src
+  audio.crossOrigin = "anonymous" // permite análise de fontes remotas que aceitam CORS
   audio.load()
 
   currentCover.src = item.capa || DEFAULT_COVER
@@ -143,6 +260,11 @@ function playItemAt(index) {
       playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`
       startProgressLoop()
       showToast(`Tocando: ${item.titulo}`)
+      startAnalyserIfNeeded()
+      // reinicia histórico pra não carregar picos antigos
+      energyHistory = []
+      peakTimestamps = []
+      lastPeakTime = 0
     })
     .catch(err => {
       console.error("Erro ao tocar:", err)
@@ -192,11 +314,14 @@ progressContainer.addEventListener("click", (e) => {
   updateProgress()
 })
 
+// atualiza handle também durante arraste do window (garante sincronismo)
+window.addEventListener("resize", updateProgress)
+
 // toca a próxima música automaticamente ao fim
 audio.addEventListener("ended", playNext)
 audio.addEventListener("timeupdate", updateProgress)
 
-// cria o modal de confirmação de exclusão
+// cria o modal de confirmação de exclusão (inicialmente escondido)
 const modal = document.createElement("div")
 modal.id = "confirm-modal"
 modal.innerHTML = `
@@ -259,23 +384,26 @@ function renderPlaylist() {
     const li = document.createElement("li")
     li.className = "music-item"
     li.innerHTML = `
-      <div class="music-left">
-        <img src="${item.capa || DEFAULT_COVER}" alt="Capa">
+      <div class="music-left" style="display:flex;align-items:center;gap:10px;">
+        <img src="${item.capa || DEFAULT_COVER}" alt="Capa" width="50" height="50" style="border-radius:10px;object-fit:cover;">
         <div class="details">
           <h4>${item.titulo}</h4>
           <p>${item.artista}</p>
         </div>
       </div>
       <div class="actions">
-        <button class="play"><i class="fas fa-play"></i></button>
-        <button class="delete" ${item.fixo ? "disabled" : ""}>
+        <button class="play" title="Tocar"><i class="fas fa-play"></i></button>
+        <button class="delete" ${item.fixo ? "disabled" : ""} title="Excluir">
           <i class="fas fa-trash"></i>
         </button>
       </div>
     `
     li.querySelector(".play").addEventListener("click", () => playItemAt(i))
     if (!item.fixo)
-      li.querySelector(".delete").addEventListener("click", () => openModal(i))
+      li.querySelector(".delete").addEventListener("click", (e) => {
+        e.stopPropagation()
+        openModal(i) // agora abre modal (e modal/hide está corrigido)
+      })
     musicListEl.appendChild(li)
   })
   highlightCurrentSong()

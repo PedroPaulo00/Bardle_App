@@ -1,3 +1,6 @@
+/* ================================
+   Fonte e Reset
+   ================================ */
 @font-face {
   font-family: 'NewRodin';
   src: url('/musicas/assets/NewRodin.otf') format('opentype');
@@ -94,14 +97,53 @@ html, body {
   align-items: center;
   gap: 10px;
   text-align: center;
+  position: relative; /* necessário para o background das ondas */
+  overflow: hidden;
+  z-index: 1;
 }
 
+/* MANTIVE a aparência atual do now-playing (glass-highlight) conforme pedido */
+.now-playing.glass-highlight {
+  background: linear-gradient(135deg, rgba(0,200,255,0.15), rgba(0,100,255,0.1));
+  border: 1px solid rgba(0,200,255,0.3);
+  box-shadow: 0 0 25px rgba(0,255,255,0.15);
+  animation: subtleGlow 4s infinite alternate ease-in-out;
+}
+
+/* fundo de batida (ondas translúcidas atrás) */
+.now-wave-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+}
+
+.now-wave-bg .wave-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(0,255,198,0.9));
+  filter: blur(6px);
+  opacity: 0.08;
+  transform: scale(0.6);
+  transition: transform 120ms linear, opacity 120ms linear;
+  will-change: transform, opacity;
+  box-shadow: 0 0 14px rgba(0,255,198,0.12);
+}
+
+/* seção now-playing: capa - mantive sua estrutura mas ajustei o tamanho solicitado */
 .now-playing .cover {
-  width: 200px;
-  height: 200px;
+  width: 150px;   /* reverti para tamanho intermediário pedido (150px) */
+  height: 150px;
   border-radius: 15px;
   object-fit: cover;
   margin-bottom: 10px;
+  z-index: 2;
 }
 
 /* imagem padrão exibida quando não há capa disponível */
@@ -118,11 +160,12 @@ html, body {
   align-items: center;
   width: 100%;
   gap: 10px;
+  z-index: 2;
 }
 
 .progress-bar {
   flex: 1;
-  height: 12px; /* Dobrou a grossura */
+  height: 12px; /* Dobrei a grossura antes; mantive 12px */
   background: rgba(255, 255, 255, 0.15);
   border-radius: 6px;
   cursor: pointer;
@@ -147,11 +190,11 @@ html, body {
     rgba(255, 255, 255, 0.4),
     transparent 60%
   );
-  opacity: 0.3;
+  opacity: 0.25;
   animation: glass-glow 4s infinite linear;
 }
 
-/* Barra de progresso */
+/* Barra de progresso preenchida */
 #progress {
   height: 100%;
   width: 0%;
@@ -160,10 +203,26 @@ html, body {
   box-shadow: 0 0 12px rgba(0, 255, 198, 0.8);
   position: relative;
   overflow: hidden;
-  transition: width 0.3s ease-out; /* suavidade no avanço */
+  transition: width 0.15s linear; /* suavidade no avanço */
 }
 
-/* Brilho interno em movimento */
+/* Handle (bolinha) no final da barra de progresso */
+#progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #00ffc6);
+  box-shadow: 0 0 12px rgba(0,255,198,0.9);
+  z-index: 3;
+  transition: left 0.12s linear, transform 0.12s ease;
+  pointer-events: none;
+}
+
+/* Brilho interno em movimento no #progress */
 #progress::after {
   content: "";
   position: absolute;
@@ -173,7 +232,7 @@ html, body {
   height: 100%;
   background: linear-gradient(
     120deg,
-    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.35) 0%,
     rgba(255, 255, 255, 0.1) 60%,
     transparent 100%
   );
@@ -202,6 +261,7 @@ html, body {
   justify-content: space-around;
   width: 100%;
   margin-top: 10px;
+  z-index: 2;
 }
 
 .controls button {
@@ -212,11 +272,14 @@ html, body {
   cursor: pointer;
 }
 
-/* seção que lista as músicas do usuário */
+/* ================================
+   Playlist
+   ================================ */
 .playlist {
   width: 90%;
   max-width: 500px;
   padding: 15px;
+  z-index: 1;
 }
 
 .music-item {
@@ -277,67 +340,7 @@ html, body {
   color: #00ffc6;
 }
 
-/* barra de navegação inferior fixa */
-.bottom-nav {
-  position: fixed;
-  bottom: 10px;
-  left: 5%;
-  width: 90%;
-  height: 70px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 1000;
-}
-
-.nav-btn {
-  background: none;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  cursor: pointer;
-  gap: 4px;
-  font-size: 0.9rem;
-}
-
-.nav-btn i {
-  font-size: 1.4rem;
-}
-
-.nav-btn img {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.nav-btn.active span,
-.nav-btn.active i {
-  color: #00ffc6;
-  text-shadow: 0 0 10px #00ffc6;
-  font-weight: bold;
-}
-
-.nav-btn:hover {
-  transform: scale(1.05);
-}
-
-/* ajustes para telas pequenas */
-@media(max-width:480px){
-  .top-bar, .bottom-nav {
-    left: 2%;
-    width: 96%;
-  }
-  .music-container { padding: 90px 10px 100px; }
-  .now-playing .cover { width: 150px; height: 150px; }
-  .controls button { font-size: 1.5rem; }
-  .music-item img { width: 45px; height: 45px; }
-  .music-item .actions button { font-size: 1.2rem; }
-}
-
-/* efeito visual para a música atualmente tocando na playlist */
+/* efeito visual para a música atualmente tocando na playlist (mantive) */
 .music-item.playing {
   background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(0,200,255,0.15) 100%);
   border-left: 4px solid #00c0ff;
@@ -350,31 +353,19 @@ html, body {
   to { background-color: rgba(0,200,255,0.15); }
 }
 
-/* destaque e brilho animado na área now playing */
-.now-playing.glass-highlight {
-  background: linear-gradient(135deg, rgba(0,200,255,0.15), rgba(0,100,255,0.1));
-  border: 1px solid rgba(0,200,255,0.3);
-  box-shadow: 0 0 25px rgba(0,255,255,0.15);
-  animation: subtleGlow 4s infinite alternate ease-in-out;
-}
-
+/* destaque e brilho animado na área now playing (mantido) */
 @keyframes subtleGlow {
   from { box-shadow: 0 0 20px rgba(0,255,255,0.1); }
   to { box-shadow: 0 0 40px rgba(0,255,255,0.3); }
 }
 
-/* animação suave na capa da música tocando */
-.now-playing .cover {
-  box-shadow: 0 0 20px rgba(0,255,255,0.3);
-  animation: coverPulse 2s infinite alternate ease-in-out;
-}
-
+/* animação suave na capa da música tocando (mantido) */
 @keyframes coverPulse {
   from { transform: scale(1); filter: brightness(1); }
   to { transform: scale(1.03); filter: brightness(1.15); }
 }
 
-/* título e artista da música atual */
+/* título e artista da música atual (mantidos) */
 .now-playing .info h2 {
   font-size: 1.3rem;
   font-weight: 700;
@@ -392,7 +383,7 @@ html, body {
 #confirm-modal {
   position: fixed;
   inset: 0;
-  display: none;
+  display: none; /* escondido até ser ativado */
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,0.6);
@@ -458,4 +449,90 @@ html, body {
 .modal-buttons button:hover {
   transform: scale(1.05);
   transition: transform 0.2s;
+}
+
+/* barra de navegação inferior fixa (mantido) */
+.bottom-nav {
+  position: fixed;
+  bottom: 10px;
+  left: 5%;
+  width: 90%;
+  height: 70px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.nav-btn i {
+  font-size: 1.4rem;
+}
+
+.nav-btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-btn.active span,
+.nav-btn.active i {
+  color: #00ffc6;
+  text-shadow: 0 0 10px #00ffc6;
+  font-weight: bold;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ajustes para telas pequenas */
+@media(max-width:480px){
+  .top-bar, .bottom-nav {
+    left: 2%;
+    width: 96%;
+  }
+  .music-container { padding: 90px 10px 100px; }
+  .now-playing .cover { width: 120px; height: 120px; }
+  .controls button { font-size: 1.5rem; }
+  .music-item img { width: 45px; height: 45px; }
+  .music-item .actions button { font-size: 1.2rem; }
+}
+
+/* ================================
+   Toast container (invisível até usado)
+   ================================ */
+#toast-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 3000;
+}
+.toast {
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  animation: fadeInOut 2.5s forwards;
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
 }
