@@ -20,7 +20,7 @@ body, html {
 
 /* cria o fundo com imagem e efeito de brilho, simulando o estilo aero glass */
 .background {
-  background-image: url("./assets/auth_background.jpg");
+  background-image: url("/auth/assets/auth_background.gif");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

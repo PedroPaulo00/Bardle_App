@@ -12,7 +12,10 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif; /* aplica a fonte importada */
-  background: url("/profile/assets/app_background.jpg") center/cover repeat;
+  background-image: url("/home/assets/background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
   color: #fff;
   display: flex;
   flex-direction: column;

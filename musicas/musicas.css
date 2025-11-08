@@ -16,7 +16,7 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif; /* aplica a fonte importada */
-  background: url("/musicas/assets/app_background.jpg") center/cover no-repeat;
+  background: url("/musicas/assets/background.jpg") center/cover no-repeat;
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -109,7 +109,10 @@ html, body {
   content: url("https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg");
 }
 
-/* barra de progresso da música */
+/* ================================
+   Barra de Progresso — Estilo Aero Glass
+   ================================ */
+
 .now-playing .progress-container {
   display: flex;
   align-items: center;
@@ -119,18 +122,78 @@ html, body {
 
 .progress-bar {
   flex: 1;
-  height: 6px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 3px;
+  height: 12px; /* Dobrou a grossura */
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px) saturate(180%);
+  box-shadow:
+    inset 0 0 6px rgba(255, 255, 255, 0.3),
+    0 0 8px rgba(0, 255, 198, 0.4);
 }
 
+/* Efeito de vidro brilhante */
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(
+    circle at 50% 0%,
+    rgba(255, 255, 255, 0.4),
+    transparent 60%
+  );
+  opacity: 0.3;
+  animation: glass-glow 4s infinite linear;
+}
+
+/* Barra de progresso */
 #progress {
   height: 100%;
   width: 0%;
-  background: #00ffc6;
-  border-radius: 3px;
+  background: linear-gradient(90deg, #00ffc6, #00a3ff);
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 255, 198, 0.8);
+  position: relative;
+  overflow: hidden;
+  transition: width 0.3s ease-out; /* suavidade no avanço */
+}
+
+/* Brilho interno em movimento */
+#progress::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+/* ================================
+   Animações
+   ================================ */
+
+/* Brilho em loop suave sobre o vidro */
+@keyframes glass-glow {
+  0% { transform: translateX(-30%); }
+  100% { transform: translateX(30%); }
+}
+
+/* Reflexo correndo sobre o progresso */
+@keyframes shimmer {
+  0% { left: -40%; }
+  100% { left: 100%; }
 }
 
 /* botões de controle do player */

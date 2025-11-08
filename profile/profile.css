@@ -15,7 +15,7 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif;
-  background: url("assets/app_background.jpg") center/cover no-repeat;
+  background: url("/profile/assets/background.jpg") center/cover no-repeat;
   color: #fff;
   display: flex;
   flex-direction: column;

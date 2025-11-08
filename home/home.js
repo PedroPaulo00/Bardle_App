@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userSnap.exists()) {
       const dados = userSnap.data();
       welcomeMsg.textContent = `Olá, ${dados.nickname || "Usuário"}!`;
-      dailyScore.textContent = `Sua pontuação de hoje: ${dados.pontuacaoDiaria || 0} 🎯`;
+      dailyScore.textContent = `Sua pontuação de hoje: ${dados.pontuacaoDiaria || 0}`;
 
       // Carrega imagem do usuário da internet
       const imgUrl = dados.imgUrl || "../assets/user-placeholder.jpg";
@@ -42,11 +42,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function atualizarRanking(usuario) {
     const rankingBase = [
-      { nome: "MelodyMaster", pts: 180 },
-      { nome: "TuneTitan", pts: 150 },
-      { nome: "HarmonyHero", pts: 130 },
-      { nome: "LyricLord", pts: 110 },
-      { nome: "BeatBoss", pts: 90 }
+      { nome: "NicoNiner9", pts: 180 },
+      { nome: "21P", pts: 150 },
+      { nome: "Ned17", pts: 130 },
+      { nome: "TJoseph", pts: 110 },
+      { nome: "DunDunDun", pts: 90 }
     ];
 
     const player = { nome: usuario.nickname, pts: usuario.pontuacaoDiaria || 0 };

@@ -14,7 +14,7 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif;
-  background: url("../musicas/assets/app_background.jpg") center/cover no-repeat;
+  background: url("/config/assets/background.jpg") center/cover no-repeat;
   color: #fff;
   display: flex;
   flex-direction: column;

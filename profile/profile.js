@@ -116,13 +116,13 @@ cancelLogout.addEventListener("click", () => modal.classList.add("hidden"))
 // confirma o logout e encerra a sessão do usuário
 confirmLogout.addEventListener("click", async () => {
   await signOut(auth)
-  window.location.href = "../auth/login.html"
+  window.location.href = "../auth/auth.html"
 })
 
 // ===== Navegação Top-Bar / Bottom-Nav =====
 // mantém a navegação consistente com as outras telas do app
 document.querySelector(".logo-area").addEventListener("click", () => window.location.href = "../home/home.html")
-document.querySelector(".settings-btn").addEventListener("click", () => window.location.href = "../configuracoes/config.html")
+document.querySelector(".settings-btn").addEventListener("click", () => window.location.href = "../config/config.html")
 
 document.querySelector(".bottom-nav button:nth-child(1)").addEventListener("click", () => window.location.href = "../home/home.html")
 document.querySelector(".bottom-nav button:nth-child(2)").addEventListener("click", () => window.location.href = "../musicas/musicas.html")
