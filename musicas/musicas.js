@@ -444,6 +444,62 @@ onAuthStateChanged(auth, async (user) => {
   setNowPlayingPlaceholder()
 })
 
+// cria e injeta o container das ondas BPM
+const nowPlayingSection = document.querySelector(".now-playing")
+const bpmWaves = document.createElement("div")
+bpmWaves.className = "bpm-waves"
+nowPlayingSection.appendChild(bpmWaves)
+
+// função que analisa BPM usando Web Audio API
+async function detectBPM(audioElement) {
+  const audioCtx = new AudioContext()
+  const src = audioCtx.createMediaElementSource(audioElement)
+  const analyser = audioCtx.createAnalyser()
+  src.connect(analyser)
+  analyser.connect(audioCtx.destination)
+  const bufferLength = analyser.frequencyBinCount
+  const dataArray = new Uint8Array(bufferLength)
+  let bpmEstimate = 100
+  function estimate() {
+    analyser.getByteFrequencyData(dataArray)
+    const avg = dataArray.reduce((a, b) => a + b, 0) / bufferLength
+    bpmEstimate = Math.max(60, Math.min(160, avg / 2))
+  }
+  setInterval(estimate, 2000)
+  return () => bpmEstimate
+}
+
+// cria ondas pulsantes com base no BPM detectado
+let getBPM = null
+let bpmInterval = null
+async function startBpmWaves() {
+  getBPM = await detectBPM(audio)
+  clearInterval(bpmInterval)
+  bpmInterval = setInterval(() => {
+    const bpm = getBPM()
+    const span = document.createElement("span")
+    const size = Math.random() * 150 + 100
+    span.style.width = `${size}px`
+    span.style.height = `${size}px`
+    span.style.left = `${Math.random() * 80 + 10}%`
+    span.style.top = `${Math.random() * 80 + 10}%`
+    span.style.animationDuration = `${60 / bpm}s`
+    bpmWaves.appendChild(span)
+    setTimeout(() => span.remove(), 2000)
+  }, 60000 / 8 / 100) // ajusta densidade das ondas
+}
+
+// ao tocar música, ativa as ondas BPM
+audio.addEventListener("play", () => {
+  startBpmWaves()
+})
+
+// ao pausar, para as ondas
+audio.addEventListener("pause", () => {
+  clearInterval(bpmInterval)
+})
+
+
 // botões de navegação inferior
 document.getElementById("logo-home").onclick = () => window.location.href = "../home/home.html"
 document.getElementById("settings-btn").onclick = () => window.location.href = "../config/config.html"

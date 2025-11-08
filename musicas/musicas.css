@@ -110,6 +110,49 @@ html, body {
   animation: subtleGlow 4s infinite alternate ease-in-out;
 }
 
+
+/* Camada das ondas BPM */
+.now-playing .bpm-waves {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0; /* abaixo dos elementos, acima do fundo */
+}
+
+.bpm-waves span {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    rgba(0, 255, 198, 0.35),
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0.2);
+  pointer-events: none;
+  animation: bpmPulse 1.5s ease-out infinite;
+}
+
+@keyframes bpmPulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.4);
+  }
+  70% {
+    opacity: 0.15;
+    transform: scale(2.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+/* Ajustes do conteúdo */
+.now-playing .content {
+  position: relative;
+  z-index: 2;
+}
+
 /* fundo de batida (ondas translúcidas atrás) */
 .now-wave-bg {
   position: absolute;
@@ -163,18 +206,15 @@ html, body {
   z-index: 2;
 }
 
+/* Barra de progresso com bolinha */
 .progress-bar {
-  flex: 1;
-  height: 12px; /* Dobrei a grossura antes; mantive 12px */
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  cursor: pointer;
   position: relative;
+  flex: 1;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
   overflow: hidden;
-  backdrop-filter: blur(10px) saturate(180%);
-  box-shadow:
-    inset 0 0 6px rgba(255, 255, 255, 0.3),
-    0 0 8px rgba(0, 255, 198, 0.4);
+  cursor: pointer;
 }
 
 /* Efeito de vidro brilhante */
@@ -194,16 +234,26 @@ html, body {
   animation: glass-glow 4s infinite linear;
 }
 
-/* Barra de progresso preenchida */
+#progress::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: #00ffc6;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ffc6;
+}
+
 #progress {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, #00ffc6, #00a3ff);
   border-radius: 6px;
-  box-shadow: 0 0 12px rgba(0, 255, 198, 0.8);
   position: relative;
-  overflow: hidden;
-  transition: width 0.15s linear; /* suavidade no avanço */
+  transition: width 0.25s ease;
 }
 
 /* Handle (bolinha) no final da barra de progresso */
@@ -292,6 +342,13 @@ html, body {
   background: rgba(255,255,255,0.05);
   box-shadow: 0 2px 6px rgba(0,0,0,0.5);
   transition: transform 0.2s;
+}
+
+/* Música tocando: destaque */
+.music-item.playing {
+  border: 2px solid rgba(0, 255, 198, 0.7);
+  background: rgba(0, 255, 198, 0.1);
+  box-shadow: 0 0 12px rgba(0, 255, 198, 0.4);
 }
 
 .music-item:hover {
