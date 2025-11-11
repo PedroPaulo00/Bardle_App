@@ -41,23 +41,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function atualizarRanking(usuario) {
-    const rankingBase = [
-      { nome: "NicoNiner9", pts: 180 },
-      { nome: "21P", pts: 150 },
-      { nome: "Ned17", pts: 130 },
-      { nome: "TJoseph", pts: 110 },
-      { nome: "DunDunDun", pts: 90 }
-    ];
+  const rankingBase = [
+    { nome: "NicoNiner9", pts: 180 },
+    { nome: "21P", pts: 150 },
+    { nome: "Ned17", pts: 130 },
+    { nome: "TJoseph", pts: 110 },
+    { nome: "DunDunDun", pts: 90 }
+  ];
 
-    const player = { nome: usuario.nickname, pts: usuario.pontuacaoDiaria || 0 };
-    rankingBase.push(player);
-    rankingBase.sort((a,b) => b.pts - a.pts);
-    const top5 = rankingBase.slice(0,5);
+  const player = { nome: usuario.nickname, pts: usuario.pontuacaoDiaria || 0 };
+  rankingBase.push(player);
+  rankingBase.sort((a, b) => b.pts - a.pts);
+  const top5 = rankingBase.slice(0, 5);
 
-    rankingList.innerHTML = top5.map((u,i) =>
-      `<li><span>${i+1}º</span> ${u.nome} — ${u.pts} pts</li>`
-    ).join("");
-  }
+  rankingList.innerHTML = top5
+    .map((u, i) => {
+      const isUser = u.nome === usuario.nickname;
+      const color = isUser ? "style='color: #00ff62; font-weight: bold;'" : "";
+      return `<li ${color}><span>${i + 1}º</span> ${u.nome} — ${u.pts} pts</li>`;
+    })
+    .join("");
+}
 
   // Navegação
   document.getElementById("logo-home").onclick = () => window.location.href = "./home.html";

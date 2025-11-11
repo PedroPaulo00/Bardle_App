@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bardle | Home</title>
   <link rel="icon" type="image/x-icon" href="/musicas/assets/bardle.png" />
-    <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
+  <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="home.css" />
@@ -19,7 +19,52 @@
 
   <!-- JS -->
   <script type="module" src="home.js" defer></script>
+
+  <style>
+    /* === Indicadores do Carrossel === */
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .indicator.active {
+      background: gold;
+      transform: scale(1.2);
+      box-shadow: 0 0 6px rgba(255, 215, 0, 0.8);
+    }
+
+    .news-section {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .news-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+    }
+
+    .news-item {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
 </head>
+
 <body>
   <!-- ===== TOP BAR ===== -->
   <header class="top-bar glass">
@@ -40,20 +85,56 @@
       <h1 id="welcome-msg">Olá, Usuário!</h1>
       <h3 id="daily-score">Sua pontuação de hoje: 0</h3>
     </section>
-    
-    <button class="play-btn glass" id="play-btn">Jogar</button>
 
+    <!-- ===== REGRAS DO JOGO ===== -->
     <section class="rules-section glass">
       <h2>Regras do Jogo</h2>
-      <p>Descubra a música certa em menos tentativas possíveis. Use dicas de letra e gênero para adivinhar o artista ou título!</p>
+      <p>O jogo consiste em 10 rodadas atualizadas diariamente, onde você deve descobrir a música certa dentre as 4 opções dadas. A cada segundo passado, menor será sua pontuação. Boa sorte e bom jogo!</p>
+      <button class="play-btn glass" id="play-btn">Jogar</button>
     </section>
 
+    <!-- ===== RANKING ===== -->
     <section class="ranking-section glass">
-      <h2>Ranking Diário</h2>
-      <ol id="ranking-list">
-        <!-- Rankings preenchidos via JS -->
-      </ol>
+      <h2>Ranking Diário <span id="ranking-date"></span></h2>
+      <ol id="ranking-list"></ol>
     </section>
+
+    <!-- ===== CARROSSEL DE NOTÍCIAS ===== -->
+    <section class="news-section glass">
+      <h2>Oque há de novo no mundo da música?</h2>
+
+      <div class="news-carousel" id="news-carousel">
+        <div class="news-item">
+          <img src="https://akamai.sscdn.co/letras/360x360/albuns/8/c/1/7/3908811757598659.jpg" alt="Notícia 1">
+          <h3>Twenty One Pilots lança novo álbum Breach.</h3>
+          <p>Álbum lançado pelo duo americano vencedor do Grammy completa lore que começou em Blurryface e se decorreu por Trench, Scaled and Icy e Clancy.</p>
+        </div>
+        <div class="news-item">
+          <img src="https://res.cloudinary.com/shotgun/image/upload/c_limit,w_750/fl_lossy/f_auto/q_auto/production/artworks/artists/d4vddd.jpg" alt="Notícia 2">
+          <h3>Cantor d4vd é investigado por morte de menor.</h3>
+          <p>Corpo de Celeste Rivas Hernandez, 15 anos, foi encontrado em porta-malas de carro pertencente ao cantor americano.</p>
+        </div>
+        <div class="news-item">
+          <img src="https://api.sniffers.co.nz/wp-content/uploads/2023/03/Blusher-press-secondary-e1678664240941.jpg" alt="Notícia 3">
+          <h3>Blusher anuncia Racer Tour 2025.</h3>
+          <p>Shows da turnê do trio australiano deverão acontecer na Oceania, Europa, Estados Unidos e Canadá.</p>
+        </div>
+        <div class="news-item">
+          <img src="https://static.poder360.com.br/2025/05/Bad-Bunny-848x477.png" alt="Notícia 4">
+          <h3>CRÍTICA: Bad Bunny merece Grammy de Melhor Álbum por "DTMF".</h3>
+          <p>Aclamado álbum é celebração da cultura porto-riquenha e "tapa na cara" da cultura colonizadora americana.</p>
+        </div>
+        <div class="news-item">
+          <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/the-weeknd.jpg?w=708" alt="Notícia 5">
+          <h3>The Weeknd, o rei do R&B.</h3>
+          <p>Com 29 músicas acima de 1 bilhão na plataforma Spotify, artista já tem maiores números de vendas na história.</p>
+        </div>
+      </div>
+
+      <!-- Indicadores de progresso -->
+      <div class="carousel-indicators" id="carousel-indicators"></div>
+    </section>
+
   </main>
 
   <!-- ===== BOTTOM NAV ===== -->
@@ -73,5 +154,54 @@
       <span>Perfil</span>
     </button>
   </nav>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    // Atualiza data
+    const today = new Date();
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    document.getElementById('ranking-date').textContent = `(${today.toLocaleDateString('pt-BR', options)})`;
+
+    // ===== CARROSSEL AUTOMÁTICO COM INDICADORES =====
+    const carousel = document.getElementById('news-carousel');
+    const items = document.querySelectorAll('.news-item');
+    const indicatorsContainer = document.getElementById('carousel-indicators');
+    let currentIndex = 0;
+    let paused = false;
+    let interval;
+
+    // Cria indicadores (bolinhas)
+    items.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('indicator');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateCarousel();
+      });
+      indicatorsContainer.appendChild(dot);
+    });
+
+    const indicators = document.querySelectorAll('.indicator');
+
+    function updateCarousel() {
+      const width = carousel.clientWidth;
+      carousel.scrollTo({ left: width * currentIndex, behavior: 'smooth' });
+      indicators.forEach(ind => ind.classList.remove('active'));
+      indicators[currentIndex].classList.add('active');
+    }
+
+    function autoSlide() {
+      if (!paused) {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateCarousel();
+      }
+    }
+
+    carousel.addEventListener('mouseenter', () => paused = true);
+    carousel.addEventListener('mouseleave', () => paused = false);
+
+    interval = setInterval(autoSlide, 4000); // muda a cada 4s
+  </script>
 </body>
 </html>
