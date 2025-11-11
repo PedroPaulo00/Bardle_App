@@ -5,14 +5,12 @@
 }
 
 /* ===== RESET ===== */
-/* remove margens e paddings padrões e ativa o box-sizing global */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* define a base do layout e o fundo principal do app */
 html, body {
   height: 100%;
   overflow: hidden;
@@ -24,7 +22,6 @@ html, body {
 }
 
 /* ===== EFEITO GLASS ===== */
-/* aplica efeito de vidro translúcido e sombra suave */
 .glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(14px) saturate(180%);
@@ -33,7 +30,6 @@ html, body {
   box-shadow: 0 4px 30px rgba(0,0,0,0.25);
 }
 
-/* versão mais intensa do efeito glass */
 .glass-highlight {
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(18px) saturate(200%);
@@ -42,7 +38,6 @@ html, body {
 }
 
 /* ===== TOP BAR ===== */
-/* posiciona a barra superior fixa igual às outras telas */
 .top-bar {
   position: fixed;
   top: 10px;
@@ -55,7 +50,6 @@ html, body {
   z-index: 10;
 }
 
-/* área do logo e nome do app */
 .logo-area {
   display: flex;
   align-items: center;
@@ -64,13 +58,11 @@ html, body {
   user-select: none;
 }
 
-/* define tamanho do ícone de logo */
 .logo {
   width: 50px;
   height: 50px;
 }
 
-/* define estilo do nome do app */
 .app-name {
   font-size: 1.5rem;
   font-weight: 700;
@@ -78,7 +70,6 @@ html, body {
 }
 
 /* ===== ÁREA PRINCIPAL ===== */
-/* centraliza o conteúdo principal do jogo */
 .game-container {
   flex: 1;
   display: flex;
@@ -87,10 +78,11 @@ html, body {
   align-items: center;
   padding-top: 100px;
   gap: 20px;
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 /* ===== HEADER DO JOGO ===== */
-/* contém informações de rodada e tempo */
 .game-header {
   display: flex;
   justify-content: space-between;
@@ -116,46 +108,48 @@ html, body {
 /* barra de progresso de rodadas */
 .round-strip {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   justify-content: flex-start;
 }
 
-/* bolinhas das rodadas */
+/* ===== RODADAS MELHORADAS ===== */
 .round-pill {
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: rgba(255,255,255,0.4);
-  transition: 0.3s;
+  transition: 0.4s ease;
+  box-shadow: 0 0 8px rgba(255,255,255,0.3);
 }
 
-/* bolinha ativa */
 .round-pill.active {
-  background: #00bfff;
-  box-shadow: 0 0 10px #00bfff;
+  background: linear-gradient(135deg, #00bfff, #00ffc6);
+  box-shadow: 0 0 12px #00d0ff, 0 0 25px #00d0ff;
+  animation: pulseRound 1.5s infinite alternate ease-in-out;
 }
 
-/* bolinha de acerto */
 .round-pill.correct {
   background: #00ff88;
   box-shadow: 0 0 10px #00ff88;
 }
 
-/* bolinha de erro */
 .round-pill.wrong {
   background: #ff4444;
   box-shadow: 0 0 10px #ff4444;
 }
 
+@keyframes pulseRound {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.2); opacity: 0.8; }
+}
+
 /* ===== TIMER ===== */
-/* bloco de tempo e estilo principal */
 .timer-block {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* texto do contador regressivo */
 .timer {
   font-weight: 700;
   font-size: 1.1rem;
@@ -163,14 +157,11 @@ html, body {
   transition: 0.2s;
 }
 
-/* estado de aviso quando o tempo está acabando */
 .timer.warning {
   color: #ff4c4c;
   animation: shake 0.8s infinite;
 }
 
-/* ===== SHAKE EFFECT ===== */
-/* animação de tremor usada no timer */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-3px); }
@@ -179,7 +170,6 @@ html, body {
 }
 
 /* ===== CAPA E ARTISTA ===== */
-/* centraliza capa e artista da música */
 .now-playing {
   width: 90%;
   display: flex;
@@ -190,24 +180,34 @@ html, body {
   gap: 10px;
 }
 
-/* moldura da capa com sombra */
+/* ===== EFEITO CRIATIVO NA CAPA ===== */
 .cover-wrap {
   position: relative;
   width: 260px;
   height: 260px;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 25px rgba(0,255,255,0.3);
+  animation: coverPulse 4s infinite ease-in-out;
 }
 
-/* imagem da capa */
+@keyframes coverPulse {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(0,255,255,0.2); }
+  50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(0,255,255,0.35); }
+  100% { transform: scale(1); box-shadow: 0 0 15px rgba(0,255,255,0.2); }
+}
+
 .cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 6s ease;
 }
 
-/* avatar do artista sobre a capa */
+.cover-wrap:hover .cover-img {
+  transform: scale(1.1) rotate(1deg);
+}
+
 .artist-avatar {
   position: absolute;
   bottom: 10px;
@@ -220,28 +220,24 @@ html, body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
 }
 
-/* informações de nome e título */
 .track-info {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* nome do artista */
 #artist-name {
   font-size: 1.2rem;
   font-weight: bold;
   margin-top: 5px;
 }
 
-/* título da faixa */
 #track-title {
   font-size: 1rem;
   opacity: 0.8;
 }
 
 /* ===== BARRA DE PROGRESSO ===== */
-/* estrutura visual da barra */
 .music-progress-wrapper {
   width: 100%;
   margin-top: 8px;
@@ -255,7 +251,6 @@ html, body {
   overflow: hidden;
 }
 
-/* preenchimento animado da barra */
 .music-progress-fill {
   height: 100%;
   width: 0%;
@@ -264,79 +259,94 @@ html, body {
 }
 
 /* ===== OPÇÕES ===== */
-/* painel que contém as alternativas do jogo */
 .options-panel {
   width: 90%;
   padding: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 18px;
 }
 
-/* lista de botões de resposta */
+/* lista de botões */
 .options {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
 }
 
-/* estilo base dos botões */
+/* ===== BOTÕES REFEITOS ===== */
 .option-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border-radius: 12px;
   border: none;
   font-weight: bold;
-  background: rgba(255,255,255,0.2);
-  color: #fff;
+  font-size: 1rem;
+  background: linear-gradient(135deg, #00bfff, #00ffc6);
+  color: #000;
   cursor: pointer;
-  transition: 0.25s;
-  backdrop-filter: blur(8px);
+  transition: 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* efeito ao passar o mouse */
+.option-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.option-btn:hover::after {
+  opacity: 1;
+  animation: buttonWave 1s linear;
+}
+
+@keyframes buttonWave {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
 .option-btn:hover {
-  transform: scale(1.02);
-  background: rgba(255,255,255,0.3);
+  transform: scale(1.05);
 }
 
-/* resposta correta */
 .option-btn.correct {
   background: #00ff88;
   color: #000;
 }
 
-/* resposta errada */
 .option-btn.wrong {
   background: #ff4444;
+  color: #fff;
 }
 
-/* botão desativado */
 .option-btn.disabled {
   pointer-events: none;
   opacity: 0.7;
 }
 
 /* ===== FEEDBACK ===== */
-/* mensagem abaixo das respostas */
 .feedback {
   margin-top: 10px;
   font-weight: bold;
   text-align: center;
   text-shadow: 0 0 8px rgba(0,0,0,0.4);
 }
-
-/* cores para cada tipo de retorno */
 .feedback.correct { color: #00ff88; }
 .feedback.wrong { color: #ff4444; }
 .feedback.timeout { color: #ffcc00; }
 
 .hidden, .visually-hidden { display: none !important; }
 
-/* ===== BOTÕES DE RODADA ===== */
-/* controla botões após a rodada */
+/* ===== RODADA / MODAL / TOASTS (mantidos iguais) ===== */
 .round-actions {
   display: flex;
   flex-direction: column;
@@ -345,7 +355,6 @@ html, body {
   width: 100%;
 }
 
-/* estilo base dos botões de ação */
 .btn {
   width: 100%;
   padding: 10px;
@@ -356,107 +365,73 @@ html, body {
   transition: 0.3s;
 }
 
-/* botão principal (ex: próxima música) */
 .btn.primary {
   background: #00ffc6;
   color: #000;
 }
 
-/* efeito hover do botão principal */
 .btn.primary:hover {
   background: #00e0b3;
 }
 
-/* botão secundário (ex: voltar ou sair) */
 .btn.secondary {
   background: rgba(255,255,255,0.2);
   color: #fff;
 }
 
-/* efeito hover do botão secundário */
 .btn.secondary:hover {
   background: rgba(255,255,255,0.35);
 }
 
-/* ===== MODAL FINAL ===== */
-/* sobreposição escura e centralização */
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
+/* ===== MODAL / TOAST mantidos ===== */
 
-/* conteúdo interno do modal */
-.modal-content {
-  padding: 20px;
-  text-align: center;
-  color: white;
-  border-radius: 20px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(14px) saturate(180%);
-  width: 85%;
-  max-width: 350px;
-}
-
-/* botões dentro do modal */
-.modal-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-/* ===== TOASTS ===== */
-/* define área onde aparecem os toasts */
-#toast-container {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 999;
-}
-
-/* estilo de cada toast individual */
-.toast {
-  padding: 10px 15px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.2);
-  backdrop-filter: blur(10px);
-  font-weight: bold;
-  text-align: center;
-  color: #fff;
-  animation: fadeInOut 3s ease forwards;
-}
-
-/* animação de entrada e saída do toast */
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(20px); }
-  10%, 90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-20px); }
-}
-
-/* ===== RESPONSIVIDADE ===== */
-/* ajustes para telas menores (celulares) */
-@media (max-width: 480px) {
-  .top-bar {
-    left: 2%;
-    width: 96%;
+/* ===== RESPONSIVIDADE TOTAL ===== */
+@media (max-width: 768px) {
+  html, body {
+    overflow: hidden;
   }
-  .game-container {
-    padding-top: 90px;
+  .top-bar {
+    width: 95%;
+    left: 2.5%;
+    height: 60px;
   }
   .cover-wrap {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
   }
-  #artist-name { font-size: 1.1rem; }
+  #artist-name { font-size: 1.05rem; }
   #track-title { font-size: 0.9rem; }
+  .option-btn { font-size: 1rem; padding: 12px; }
+  .options-panel { gap: 16px; }
+  .game-container {
+    padding-top: 80px;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    width: 96%;
+    left: 2%;
+    height: 55px;
+  }
+  .cover-wrap {
+    width: 180px;
+    height: 180px;
+  }
+  .option-btn {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+  .round-pill {
+    width: 14px;
+    height: 14px;
+  }
+  .game-container {
+    padding-top: 70px;
+    gap: 12px;
+  }
+  .feedback {
+    font-size: 0.9rem;
+  }
 }

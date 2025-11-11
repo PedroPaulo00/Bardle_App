@@ -84,12 +84,12 @@ html, body {
   flex: 1;
   padding-top: 100px; /* espaço abaixo da top-bar */
   padding-bottom: 100px; /* espaço acima da bottom-nav */
+  overflow: hidden;
 }
 
 /* cartão de vidro que contém informações e ações do perfil */
-/* cartão de vidro que contém informações e ações do perfil */
 .glass-card {
-  position: relative; /* permite o uso do ::before */
+  position: relative;
   width: 320px;
   padding: 30px;
   text-align: center;
@@ -98,7 +98,7 @@ html, body {
   align-items: center;
   gap: 15px;
   color: #fff;
-  overflow: hidden; /* para que o pseudo-elemento não ultrapasse as bordas */
+  overflow: hidden;
 }
 
 /* camada de fundo glass translúcida com destaque */
@@ -293,6 +293,45 @@ html, body {
     left: 2%;
     width: 96%;
   }
-  .profile-container { padding-top: 90px; padding-bottom: 90px; }
-  .glass-card { width: 90%; padding: 20px; }
+  .profile-container { 
+    padding-top: 85px; 
+    padding-bottom: 85px;
+    height: calc(100vh - 170px);
+  }
+  .glass-card { 
+    width: 92%; 
+    max-width: 340px;
+    padding: 18px; 
+    gap: 10px;
+  }
+  .profile-pic {
+    width: 90px; height: 90px;
+    border-width: 4px;
+  }
+  .profile-actions input {
+    font-size: 0.85rem;
+    padding: 7px;
+  }
+  #save-changes {
+    padding: 9px;
+    font-size: 0.9rem;
+  }
+  .logout-btn {
+    font-size: 1.6rem;
+    margin-top: 10px;
+  }
+}
+
+/* ajustes extras para telas ultrapequenas (como iPhone SE) */
+@media(max-height:720px) and (max-width:420px){
+  .profile-container {
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}
+
+@media(max-height:640px){
+  .profile-container {
+    transform: scale(0.85);
+  }
 }

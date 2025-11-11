@@ -194,7 +194,56 @@ html, body {
 }
 
 /* Responsividade */
-@media(max-width: 480px){
+@media (max-width: 820px) {
+  .top-bar, .bottom-nav {
+    left: 3%;
+    width: 94%;
+  }
+
+  .app-name {
+    font-size: 1.3rem;
+  }
+
+  .logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .play-btn {
+    font-size: 1.3rem;
+    padding: 22px 60px;
+  }
+
+  .user-section, .rules-section, .ranking-section {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-name {
+    font-size: 1.2rem;
+  }
+
+  .play-btn {
+    font-size: 1.2rem;
+    width: 90%;
+  }
+
+  .ranking-section li {
+    font-size: 1rem;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-btn i {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
   .top-bar, .bottom-nav {
     left: 2%;
     width: 96%;
@@ -206,5 +255,48 @@ html, body {
 
   .play-btn {
     width: 85%;
+    font-size: 1.1rem;
+    padding: 20px 50px;
+  }
+
+  .user-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .app-name {
+    font-size: 1rem;
+  }
+
+  .nav-btn span {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .app-name {
+    display: none; /* economiza espaço em telas muito pequenas */
+  }
+
+  .logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .play-btn {
+    font-size: 1rem;
+    padding: 18px 45px;
+  }
+
+  .ranking-section li {
+    font-size: 0.95rem;
+  }
+
+  .nav-btn i {
+    font-size: 1.1rem;
+  }
+
+  .nav-btn span {
+    font-size: 0.75rem;
   }
 }
