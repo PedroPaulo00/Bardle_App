@@ -87,7 +87,9 @@ html, body {
 }
 
 /* cartão de vidro que contém informações e ações do perfil */
+/* cartão de vidro que contém informações e ações do perfil */
 .glass-card {
+  position: relative; /* permite o uso do ::before */
   width: 320px;
   padding: 30px;
   text-align: center;
@@ -96,6 +98,27 @@ html, body {
   align-items: center;
   gap: 15px;
   color: #fff;
+  overflow: hidden; /* para que o pseudo-elemento não ultrapasse as bordas */
+}
+
+/* camada de fundo glass translúcida com destaque */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, rgba(0, 200, 255, 0.15), rgba(0, 100, 255, 0.1));
+  border: 2px solid rgba(0, 255, 198, 0.3);
+  box-shadow: 0 0 25px rgba(0, 255, 198, 0.15);
+  backdrop-filter: saturate(200%);
+  border-radius: 20px;
+  animation: subtleGlow 4s infinite alternate ease-in-out;
+}
+
+/* garante que o conteúdo fique acima do fundo glass */
+.glass-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* imagem de perfil redonda com sombra */
@@ -105,6 +128,7 @@ html, body {
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  border: 5px solid rgba(0, 255, 198);
 }
 
 /* área que contém os campos e botões do perfil */
@@ -127,7 +151,7 @@ html, body {
   width: 100%;
   padding: 8px;
   border-radius: 10px;
-  border: none;
+  border: 1px solid rgba(0, 255, 198);
   background: rgba(255,255,255,0.2);
   color: #fff;
   outline: none;
@@ -153,11 +177,11 @@ html, body {
 
 /* botão de logout vermelho abaixo das ações */
 .logout-btn {
+  background-color: #f82020;
   margin-top: 15px;
-  background: none;
-  border: none;
-  color: #ff5555;
-  font-size: 1.5rem;
+  border-radius: 50%;
+  color: white;
+  font-size: 2rem;
   cursor: pointer;
 }
 

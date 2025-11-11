@@ -104,6 +104,7 @@ html, body {
 
 /* MANTIVE a aparência atual do now-playing (glass-highlight) conforme pedido */
 .now-playing.glass-highlight {
+  border-radius: 20px;
   background: linear-gradient(135deg, rgba(0,200,255,0.15), rgba(0,100,255,0.1));
   border: 1px solid rgba(0,200,255,0.3);
   box-shadow: 0 0 25px rgba(0,255,255,0.15);
