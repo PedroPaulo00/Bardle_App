@@ -486,7 +486,7 @@ function iniciarRodada() {
   }
 
   // caminho ajustado para pasta sounds fora de /game
-  currentAudio = new Audio(`../public/sounds/${musica.url_audio_local.split("/").pop()}`);
+  currentAudio = new Audio(`../sounds/${musica.url_audio_local.split("/").pop()}`);
   currentAudio.load();
 
   currentAudio.addEventListener("loadedmetadata", () => {
