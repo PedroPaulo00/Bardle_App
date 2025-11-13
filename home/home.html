@@ -7,17 +7,14 @@
   <link rel="icon" type="image/x-icon" href="/musicas/assets/bardle.png" />
   <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
 
-  <!-- CSS -->
   <link rel="stylesheet" href="home.css" />
 
-  <!-- Font Awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     crossorigin="anonymous"
   />
 
-  <!-- JS -->
   <script type="module" src="home.js" defer></script>
 
   <style>
@@ -62,114 +59,154 @@
       text-align: center;
       padding: 10px;
     }
+    
+    /* OBS: O CSS do .glass-container, .glass-filter, .glass-overlay,
+       .glass-specular e .glass-content devem estar no seu arquivo home.css
+       para que o efeito funcione! */
   </style>
 </head>
 
 <body>
-  <!-- ===== TOP BAR ===== -->
-  <header class="top-bar glass">
-    <div class="logo-area" id="logo-home">
-      <img src="../auth/assets/bardle.png" alt="Logo Bardle" class="logo">
-      <h1 class="app-name">BARDLE</h1>
+  <svg style="display: none">
+    <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+  
+  <header class="top-bar glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
+
+    <div class="glass-content glass-content--header">
+      <div class="logo-area" id="logo-home">
+        <img src="../auth/assets/bardle.png" alt="Logo Bardle" class="logo">
+        <h1 class="app-name">BARDLE</h1>
+      </div>
+      <button class="settings-btn" id="settings-btn" title="Configurações">
+        <i class="fa-solid fa-gear"></i>
+      </button>
     </div>
-    <button class="settings-btn" id="settings-btn" title="Configurações">
-      <i class="fa-solid fa-gear"></i>
-    </button>
   </header>
 
-  <!-- ===== CONTEÚDO ===== -->
   <main class="content">
-
-    <section class="user-section glass">
-      <img id="profile-img-section" src="../assets/user-placeholder.jpg" alt="Perfil" class="user-img">
-      <h1 id="welcome-msg">Olá, Usuário!</h1>
-      <hr class="aero-glass">
-      <h3 id="daily-score">Sua pontuação de hoje: 0</h3>
-    </section>
-
-    <!-- ===== REGRAS DO JOGO ===== -->
-    <section class="rules-section glass">
-      <h2>Regras do Jogo</h2>
-      <hr class="aero-glass">
-      <p>O jogo consiste em 10 rodadas atualizadas diariamente, onde você deve descobrir a música certa dentre as 4 opções dadas. A cada segundo passado, menor será sua pontuação. Boa sorte e bom jogo!</p>
-      <button class="play-btn glass" id="play-btn">Jogar</button>
-    </section>
-
-    <!-- ===== RANKING ===== -->
-    <section class="ranking-section glass">
-      <h2>Ranking Diário <span id="ranking-date"></span></h2>
-      <ol id="ranking-list"></ol>
-    </section>
-
-    <!-- ===== CARROSSEL DE NOTÍCIAS ===== -->
-    <section class="news-section glass">
-      <h2>Oque há de novo no mundo da música?</h2>
-
-      <div class="news-carousel" id="news-carousel">
-        <div class="news-item">
-          <img src="https://akamai.sscdn.co/letras/360x360/albuns/8/c/1/7/3908811757598659.jpg" alt="Notícia 1">
-          <h3>Twenty One Pilots lança novo álbum Breach.</h3>
-          <hr class="aero-glass">
-          <p>Álbum lançado pelo duo americano vencedor do Grammy completa lore que começou em Blurryface e se decorreu por Trench, Scaled and Icy e Clancy.</p>
-        </div>
-        <div class="news-item">
-          <img src="https://res.cloudinary.com/shotgun/image/upload/c_limit,w_750/fl_lossy/f_auto/q_auto/production/artworks/artists/d4vddd.jpg" alt="Notícia 2">
-          <h3>Cantor d4vd é investigado por morte de menor.</h3>
-          <hr class="aero-glass">
-          <p>Corpo de Celeste Rivas Hernandez, 15 anos, foi encontrado em porta-malas de carro pertencente ao cantor americano.</p>
-        </div>
-        <div class="news-item">
-          <img src="https://api.sniffers.co.nz/wp-content/uploads/2023/03/Blusher-press-secondary-e1678664240941.jpg" alt="Notícia 3">
-          <h3>Blusher anuncia Racer Tour 2025.</h3>
-          <hr class="aero-glass">
-          <p>Shows da turnê do trio australiano deverão acontecer na Oceania, Europa, Estados Unidos e Canadá.</p>
-        </div>
-        <div class="news-item">
-          <img src="https://static.poder360.com.br/2025/05/Bad-Bunny-848x477.png" alt="Notícia 4">
-          <h3>CRÍTICA: Bad Bunny merece Grammy de Melhor Álbum por "DTMF".</h3>
-          <hr class="aero-glass">
-          <p>Aclamado álbum é celebração da cultura porto-riquenha e "tapa na cara" da cultura colonizadora americana.</p>
-        </div>
-        <div class="news-item">
-          <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/the-weeknd.jpg?w=708" alt="Notícia 5">
-          <h3>The Weeknd, o rei do R&B.</h3>
-          <hr class="aero-glass">
-          <p>Com 29 músicas acima de 1 bilhão na plataforma Spotify, artista já tem maiores números de vendas na história.</p>
-        </div>
+    
+    <section class="user-section glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      
+      <div class="glass-content">
+        <img id="profile-img-section" src="../assets/user-placeholder.jpg" alt="Perfil" class="user-img">
+        <h1 id="welcome-msg">Olá, Usuário!</h1>
+        <hr class="aero-glass">
+        <h3 id="daily-score">Sua pontuação de hoje: 0</h3>
       </div>
+    </section>
 
-      <!-- Indicadores de progresso -->
-      <div class="carousel-indicators" id="carousel-indicators"></div>
+    <section class="rules-section glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+
+      <div class="glass-content">
+        <h2>Regras do Jogo</h2>
+        <hr class="aero-glass">
+        <p>O jogo consiste em 10 rodadas atualizadas diariamente, onde você deve descobrir a música certa dentre as 4 opções dadas. A cada segundo passado, menor será sua pontuação. Boa sorte e bom jogo!</p>
+        <button class="play-btn glass" id="play-btn">Jogar</button>
+      </div>
+    </section>
+
+    <section class="ranking-section glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      
+      <div class="glass-content">
+        <h2>Ranking Diário <span id="ranking-date"></span></h2>
+        <ol id="ranking-list"></ol>
+      </div>
+    </section>
+
+    <section class="news-section glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      
+      <div class="glass-content">
+        <h2>Oque há de novo no mundo da música?</h2>
+
+        <div class="news-carousel" id="news-carousel">
+          <div class="news-item">
+            <img src="https://akamai.sscdn.co/letras/360x360/albuns/8/c/1/7/3908811757598659.jpg" alt="Notícia 1">
+            <h3>Twenty One Pilots lança novo álbum Breach.</h3>
+            <hr class="aero-glass">
+            <p>Álbum lançado pelo duo americano vencedor do Grammy completa lore que começou em Blurryface e se decorreu por Trench, Scaled and Icy e Clancy.</p>
+          </div>
+          <div class="news-item">
+            <img src="https://res.cloudinary.com/shotgun/image/upload/c_limit,w_750/fl_lossy/f_auto/q_auto/production/artworks/artists/d4vddd.jpg" alt="Notícia 2">
+            <h3>Cantor d4vd é investigado por morte de menor.</h3>
+            <hr class="aero-glass">
+            <p>Corpo de Celeste Rivas Hernandez, 15 anos, foi encontrado em porta-malas de carro pertencente ao cantor americano.</p>
+          </div>
+          <div class="news-item">
+            <img src="https://api.sniffers.co.nz/wp-content/uploads/2023/03/Blusher-press-secondary-e1678664240941.jpg" alt="Notícia 3">
+            <h3>Blusher anuncia Racer Tour 2025.</h3>
+            <hr class="aero-glass">
+            <p>Shows da turnê do trio australiano deverão acontecer na Oceania, Europa, Estados Unidos e Canadá.</p>
+          </div>
+          <div class="news-item">
+            <img src="https://static.poder360.com.br/2025/05/Bad-Bunny-848x477.png" alt="Notícia 4">
+            <h3>CRÍTICA: Bad Bunny merece Grammy de Melhor Álbum por "DTMF".</h3>
+            <hr class="aero-glass">
+            <p>Aclamado álbum é celebração da cultura porto-riquenha e "tapa na cara" da cultura colonizadora americana.</p>
+          </div>
+          <div class="news-item">
+            <img src="https://admin.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/the-weeknd.jpg?w=708" alt="Notícia 5">
+            <h3>The Weeknd, o rei do R&B.</h3>
+            <hr class="aero-glass">
+            <p>Com 29 músicas acima de 1 bilhão na plataforma Spotify, artista já tem maiores números de vendas na história.</p>
+          </div>
+        </div>
+
+        <div class="carousel-indicators" id="carousel-indicators"></div>
+      </div>
     </section>
 
   </main>
 
-  <!-- ===== BOTTOM NAV ===== -->
-  <nav class="bottom-nav glass">
-    <button class="nav-btn active" id="home-btn">
-      <i class="fa-solid fa-house"></i>
-      <span>Início</span>
-    </button>
+  <nav class="bottom-nav glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
 
-    <button class="nav-btn" id="music-btn">
-      <i class="fa-solid fa-music"></i>
-      <span>Músicas</span>
-    </button>
+    <div class="glass-content glass-content--nav">
+      <button class="nav-btn active" id="home-btn">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </button>
 
-    <button class="nav-btn" id="profile-btn">
-      <img id="profile-img" src="../assets/user-placeholder.jpg" alt="Perfil" />
-      <span>Perfil</span>
-    </button>
+      <button class="nav-btn" id="music-btn">
+        <i class="fa-solid fa-music"></i>
+        <span>Músicas</span>
+      </button>
+
+      <button class="nav-btn" id="profile-btn">
+        <img id="profile-img" src="../assets/user-placeholder.jpg" alt="Perfil" />
+        <span>Perfil</span>
+      </button>
+    </div>
   </nav>
 
-  <!-- ===== SCRIPT ===== -->
   <script>
     // Atualiza data
     const today = new Date();
     const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
     document.getElementById('ranking-date').textContent = `(${today.toLocaleDateString('pt-BR', options)})`;
 
-    // ===== CARROSSEL AUTOMÁTICO COM INDICADORES =====
+    // ===== CARROSSEL AUTOMÁTICO COM INDICADORES (Sem alterações) =====
     const carousel = document.getElementById('news-carousel');
     const items = document.querySelectorAll('.news-item');
     const indicatorsContainer = document.getElementById('carousel-indicators');

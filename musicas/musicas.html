@@ -11,92 +11,108 @@
 </head>
 <body>
 
-  <!-- barra superior fixa com logo e botão de configurações -->
-  <header class="top-bar glass">
-    <div class="logo-area" id="logo-home">
-      <img src="../auth/assets/bardle.png" alt="Logo Bardle" class="logo">
-      <h1 class="app-name">BARDLE</h1>
+  <svg style="display: none">
+    <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <header class="top-bar glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
+
+    <div class="glass-content glass-content--header">
+      <div class="logo-area" id="logo-home">
+        <img src="../auth/assets/bardle.png" alt="Logo Bardle" class="logo">
+        <h1 class="app-name">BARDLE</h1>
+      </div>
+      <button class="settings-btn" id="settings-btn" title="Configurações">
+        <i class="fa-solid fa-gear"></i>
+      </button>
     </div>
-    <button class="settings-btn" id="settings-btn" title="Configurações">
-      <i class="fa-solid fa-gear"></i>
-    </button>
   </header>
 
-  <!-- conteúdo principal da página -->
   <main class="music-container">
 
-    <!-- seção que mostra a música tocando no momento -->
-    <section class="now-playing glass-highlight">
-      <!-- fundo de batida (atrás dos elementos) -->
-      <div class="now-wave-bg" aria-hidden="true">
-        <div class="wave-dot"></div>
-        <div class="wave-dot"></div>
-        <div class="wave-dot"></div>
-        <div class="wave-dot"></div>
-        <div class="wave-dot"></div>
-      </div>
+    <section class="now-playing glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
 
-      <!-- capa da música atual (mantive id e classe originais) -->
-      <img id="current-cover" src="assets/placeholder_cover.jpg" alt="Capa da música" class="cover">
-
-      <!-- informações da música -->
-      <div class="info">
-        <h2 id="current-title">Nada tocando</h2>
-        <p id="current-artist">—</p>
-      </div>
-
-      <!-- barra de progresso da reprodução -->
-      <div class="progress-container">
-        <span id="current-time">0:00</span>
-        <div class="progress-bar">
-          <div id="progress"></div>
-          <div id="progress-handle" aria-hidden="true"></div>
+      <div class="glass-content">
+        <div class="now-wave-bg" aria-hidden="true">
+          <div class="wave-dot"></div>
+          <div class="wave-dot"></div>
+          <div class="wave-dot"></div>
+          <div class="wave-dot"></div>
+          <div class="wave-dot"></div>
         </div>
-        <span id="total-time">0:00</span>
-      </div>
 
-      <!-- botões de controle do player (anterior, play/pause, próxima) -->
-      <div class="controls">
-        <button id="prev" title="Anterior"><i class="fas fa-backward-step"></i></button>
-        <button id="play-pause" class="play" title="Play/Pause"><i class="fas fa-play"></i></button>
-        <button id="next" title="Próxima"><i class="fas fa-forward-step"></i></button>
+        <img id="current-cover" src="assets/placeholder_cover.jpg" alt="Capa da música" class="cover">
+
+        <div class="info">
+          <h2 id="current-title">Nada tocando</h2>
+          <p id="current-artist">—</p>
+        </div>
+
+        <div class="progress-container">
+          <span id="current-time">0:00</span>
+          <div class="progress-bar">
+            <div id="progress"></div>
+            <div id="progress-handle" aria-hidden="true"></div>
+          </div>
+          <span id="total-time">0:00</span>
+        </div>
+
+        <div class="controls">
+          <button id="prev" title="Anterior"><i class="fas fa-backward-step"></i></button>
+          <button id="play-pause" class="play" title="Play/Pause"><i class="fas fa-play"></i></button>
+          <button id="next" title="Próxima"><i class="fas fa-forward-step"></i></button>
+        </div>
       </div>
     </section>
 
-    <!-- seção da playlist do usuário -->
-    <section class="playlist glass">
-      <h3>Sua Playlist</h3>
-      <!-- lista que será preenchida dinamicamente pelo javascript -->
-      <ul id="music-list">
-        <!-- Será preenchido pelo JS -->
-      </ul>
+    <section class="playlist glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+
+      <div class="glass-content">
+        <h3>Sua Playlist</h3>
+        <ul id="music-list">
+          </ul>
+      </div>
     </section>
   </main>
 
-  <!-- barra de navegação inferior fixa -->
-  <nav class="bottom-nav glass">
-    <button class="nav-btn" id="home-btn">
-      <i class="fa-solid fa-house"></i>
-      <span>Início</span>
-    </button>
+  <nav class="bottom-nav glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
 
-    <button class="nav-btn active" id="music-btn">
-      <i class="fa-solid fa-music"></i>
-      <span>Músicas</span>
-    </button>
+    <div class="glass-content glass-content--nav">
+      <button class="nav-btn" id="home-btn">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </button>
 
-    <button class="nav-btn" id="profile-btn">
-      <img id="profile-img" src="../assets/user-placeholder.jpg" alt="Perfil"/>
-      <span>Perfil</span>
-    </button>
+      <button class="nav-btn active" id="music-btn">
+        <i class="fa-solid fa-music"></i>
+        <span>Músicas</span>
+      </button>
+
+      <button class="nav-btn" id="profile-btn">
+        <img id="profile-img" src="../assets/user-placeholder.jpg" alt="Perfil"/>
+        <span>Perfil</span>
+      </button>
+    </div>
   </nav>
 
-  <!-- container para exibir mensagens toast de feedback ao usuário (invisível até precisar) -->
   <div id="toast-container" aria-live="polite"></div>
 
-  <!-- Modal de confirmação já criado pelo JS (script cria elemento dinamicamente) -->
-
-  <!-- script principal da página que controla o player e a playlist -->
   <script type="module" src="musicas.js"></script>
 </body>
 </html>

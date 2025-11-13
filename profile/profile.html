@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- define o tipo do documento e idioma principal -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bardle | Perfil</title>
   <link rel="icon" type="image/x-icon" href="/musicas/assets/bardle.png" />
     <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
 
-  <!-- importa o css principal da página de perfil -->
   <link rel="stylesheet" href="profile.css" />
 
-  <!-- importa os ícones da biblioteca font awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -20,94 +17,111 @@
 </head>
 
 <body>
-  <!-- ===== TOPO ===== -->
-  <!-- barra superior com logo e botão de configurações -->
-  <header class="top-bar glass">
-    <div class="logo-area">
-      <!-- logo principal do app -->
-      <img src="assets/bardle.png" alt="Logo Bardle" class="logo" />
-      <h1 class="app-name">BARDLE</h1>
-    </div>
+  <svg style="display: none">
+    <filter id="lg-dist" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+      <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+      <feDisplacementMap in="SourceGraphic" in2="blurred" scale="70" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
 
-    <!-- botão de configurações no canto direito -->
-    <button class="settings-btn" title="Configurações">
-      <i class="fa-solid fa-gear"></i>
-    </button>
+  <header class="top-bar glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
+
+    <div class="glass-content glass-content--header">
+      <div class="logo-area">
+        <img src="assets/bardle.png" alt="Logo Bardle" class="logo" />
+        <h1 class="app-name">BARDLE</h1>
+      </div>
+
+      <button class="settings-btn" title="Configurações">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+    </div>
   </header>
 
-  <!-- ===== PERFIL ===== -->
-  <!-- seção principal do perfil com informações do usuário -->
   <main class="profile-container">
-    <div class="glass-card">
-      <!-- imagem de perfil do usuário -->
-      <img id="user-photo" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Foto de Perfil" class="profile-pic" />
-      
-      <!-- nome e email do usuário -->
-      <h1 id="user-name">Carregando...</h1>
-      <p id="user-email">email@exemplo.com</p>
+    
+    <div class="glass-card glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
 
-      <!-- campos para edição de informações do perfil -->
-      <div class="profile-actions">
-        <label for="new-name">Nome:</label>
-        <input type="text" id="new-name" placeholder="Novo nome" />
+      <div class="glass-content">
+        <img id="user-photo" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Foto de Perfil" class="profile-pic" />
+        
+        <h1 id="user-name">Carregando...</h1>
+        <p id="user-email">email@exemplo.com</p>
 
-        <label for="new-photo">Foto (URL):</label>
-        <input type="text" id="new-photo" placeholder="Link da nova foto" />
+        <div class="profile-actions">
+          <label for="new-name">Nome:</label>
+          <input type="text" id="new-name" placeholder="Novo nome" />
 
-        <label for="new-password">Nova senha:</label>
-        <input type="password" id="new-password" placeholder="Mínimo 6 caracteres" />
+          <label for="new-photo">Foto (URL):</label>
+          <input type="text" id="new-photo" placeholder="Link da nova foto" />
 
-        <!-- botão para salvar alterações -->
-        <button id="save-changes">Salvar alterações</button>
+          <label for="new-password">Nova senha:</label>
+          <input type="password" id="new-password" placeholder="Mínimo 6 caracteres" />
+
+          <button id="save-changes">Salvar alterações</button>
+        </div>
       </div>
     </div>
-    <!-- botão para sair da conta -->
-      <div class="logout-section">
-        <button id="logout" class="logout-btn" title="Sair da conta">
-          <i class="fa-solid fa-right-from-bracket"></i>
-        </button>
-      </div>
+    
+    <div class="logout-section">
+      <button id="logout" class="logout-btn" title="Sair da conta">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    </div>
   </main>
 
-  <!-- ===== MODAL LOGOUT ===== -->
-  <!-- janela modal exibida ao tentar sair da conta -->
   <div id="logout-modal" class="modal hidden">
-    <div class="modal-content glass">
-      <h2>Deseja sair da conta?</h2>
-      <div class="modal-buttons">
-        <button id="confirm-logout" class="confirm">Sim</button>
-        <button id="cancel-logout" class="cancel">Cancelar</button>
+    <div class="modal-content glass-container">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      
+      <div class="glass-content">
+        <h2>Deseja sair da conta?</h2>
+        <div class="modal-buttons">
+          <button id="confirm-logout" class="confirm">Sim</button>
+          <button id="cancel-logout" class="cancel">Cancelar</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== NAV INFERIOR ===== -->
-  <!-- barra de navegação fixa no rodapé -->
-  <nav class="bottom-nav glass">
-    <button class="nav-btn" id="home-btn">
-      <i class="fa-solid fa-house"></i>
-      <span>Início</span>
-    </button>
+  <nav class="bottom-nav glass-container">
+    <div class="glass-filter"></div>
+    <div class="glass-overlay"></div>
+    <div class="glass-specular"></div>
 
-    <button class="nav-btn" id="music-btn">
-      <i class="fa-solid fa-music"></i>
-      <span>Músicas</span>
-    </button>
+    <div class="glass-content glass-content--nav">
+      <button class="nav-btn" id="home-btn">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </button>
 
-    <button class="nav-btn active" id="profile-btn">
-      <img id="profile-icon" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Perfil" />
-      <span>Perfil</span>
-    </button>
+      <button class="nav-btn" id="music-btn">
+        <i class="fa-solid fa-music"></i>
+        <span>Músicas</span>
+      </button>
+
+      <button class="nav-btn active" id="profile-btn">
+        <img id="profile-icon" src="https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FMjpg_QL85_.jpg" alt="Perfil" />
+        <span>Perfil</span>
+      </button>
+    </div>
   </nav>
 
-  <!-- container para mensagens toast -->
   <div id="toast-container"></div>
 
-  <!-- script principal do perfil -->
   <script type="module" src="profile.js"></script>
 
   <script>
-    // ===== Navegação Top-Bar / Bottom-Nav =====
+    // ===== Navegação Top-Bar / Bottom-Nav (MANTIDO) =====
     // manipula a navegação entre páginas do app
     const logoArea = document.querySelector(".logo-area");
     const settingsBtn = document.querySelector(".settings-btn");

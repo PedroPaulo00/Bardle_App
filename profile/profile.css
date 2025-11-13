@@ -24,6 +24,129 @@ html, body {
   overflow: hidden;
 }
 
+/* Container principal (o seu <header>) */
+.glass-container {
+    position: relative;
+    overflow: hidden; /* Importante para o efeito de vidro */
+    border-radius: 20px; /* Adapta a borda do seu .glass_novo */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2); /* Adapta a sombra do seu .glass_novo */
+    /* Garanta o layout do cabeçalho */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0; /* O padding será movido para .glass-content */
+}
+
+/* Camadas do Efeito Glass */
+.glass-filter {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    /* 1. Aplica o filtro CSS de desfoque/saturação */
+    backdrop-filter: saturate(180%);
+    /* 2. Aplica o filtro SVG de ondulação (líquido) */
+    filter: url(#lg-dist);
+    isolation: isolate;
+}
+
+.glass-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* Cor de fundo transparente */
+    background: rgba(255, 255, 255, 0.15); /* Adapta o fundo do seu .glass_novo */
+}
+
+.glass-specular {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    overflow: hidden;
+    /* Borda e brilho sutil */
+    box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.178); /* Adapta a borda do seu .glass_novo */
+}
+
+/* Camada para o Conteúdo (acima de tudo) */
+.glass-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.glass-content--header {
+    /* Adicione aqui o padding do seu cabeçalho */
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Adicione esta regra ao seu CSS para reestabelecer o layout Flexbox dos botões */
+.glass-content--nav {
+  /* Define a área de conteúdo para ocupar todo o espaço do nav */
+  width: 100%; 
+  height: 100%;
+  box-sizing: border-box; 
+  /* Regras de Flexbox MIGRARAM AQUI */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* (Opcional) Adicione um padding interno se necessário */
+  padding: 0 10px; 
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* estiliza o nome do aplicativo na barra superior */
+.app-name {
+  margin: 0 0 0 0.5rem;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(81, 255, 0, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgb(0, 255, 255),
+    rgb(255, 255, 255),
+    rgb(81, 255, 0),
+    rgb(255, 255, 255),
+    rgb(0, 255, 255)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGlow 4s ease-in-out infinite;
+}
+
+.settings-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.settings-btn i {
+  font-size: 1.5rem;
+}
 /* cria o efeito glass com transparência e desfoque para elementos principais */
 .glass {
   background: rgba(255, 255, 255, 0.15);
