@@ -186,3 +186,127 @@ input {
 h2 {
   color: white;
 }
+
+/* ==============================
+   RESPONSIVIDADE TOTAL
+   ============================== */
+
+/* telas menores que 768px (smartphones grandes) */
+@media (max-width: 768px) {
+  .auth-container {
+    justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .logo {
+    width: 220px;
+  }
+
+  .app-name {
+    font-size: 1.6rem;
+  }
+
+  .panel {
+    max-width: 300px;
+    padding: 1.2rem;
+  }
+
+  input {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .primary, .google-btn {
+    padding: 10px;
+    font-size: 0.95rem;
+  }
+}
+
+/* telas menores que 480px (celulares comuns) */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .logo {
+    width: 180px;
+  }
+
+  .app-name {
+    font-size: 1.4rem;
+  }
+
+  .panel {
+    max-width: 90%;
+    padding: 1rem;
+  }
+
+  input {
+    font-size: 0.9rem;
+    padding: 9px;
+  }
+
+  .primary, .google-btn {
+    font-size: 0.9rem;
+    padding: 9px;
+  }
+
+  .link {
+    font-size: 0.85rem;
+  }
+}
+
+/* telas muito pequenas (até 360px de largura, ex: Galaxy Fold, iPhone SE) */
+@media (max-width: 360px) {
+  .logo {
+    width: 150px;
+  }
+
+  .app-name {
+    font-size: 1.2rem;
+  }
+
+  .panel {
+    padding: 0.8rem;
+    border-radius: 12px;
+  }
+
+  input {
+    font-size: 0.85rem;
+  }
+
+  .primary, .google-btn {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .link {
+    font-size: 0.8rem;
+  }
+}
+
+/* suporte extra para telas ultra estreitas (320px ou menos) */
+@media (max-width: 320px) {
+  .logo {
+    width: 130px;
+  }
+
+  .app-name {
+    font-size: 1.1rem;
+  }
+
+  .panel {
+    max-width: 95%;
+    padding: 0.7rem;
+  }
+
+  input {
+    font-size: 0.8rem;
+    padding: 7px;
+  }
+
+  .primary, .google-btn {
+    font-size: 0.8rem;
+    padding: 7px;
+  }
+}

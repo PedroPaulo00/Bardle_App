@@ -15,8 +15,10 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif;
-  background: url("/profile/assets/background.jpg") center/cover no-repeat;
-  color: #fff;
+  background: 
+  linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+  url("/profile/assets/fundo3.jpg") center/cover no-repeat;
+  color: white;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -58,13 +60,52 @@ html, body {
   width: 50px;
   height: 50px;
 }
-
+  
 /* estiliza o nome do aplicativo na barra superior */
 .app-name {
+  position: relative;
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(81, 255, 0, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgb(0, 255, 255),
+    rgb(255, 255, 255),
+    rgb(81, 255, 0),
+    rgb(255, 255, 255),
+    rgb(0, 255, 255)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGlow 4s ease-in-out infinite;
+}
+
+/* animação: efeito ondulante de brilho colorido */
+@keyframes waveGlow {
+  0% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow:
+      0 0 12px rgba(81, 255, 0, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
 }
 
 /* botão de configurações no canto direito da barra superior */
@@ -79,8 +120,10 @@ html, body {
 /* container central que alinha o cartão de perfil verticalmente */
 .profile-container {
   display: flex;
+  flex-direction: column; /* faz tudo ficar empilhado em coluna */
   justify-content: center;
   align-items: center;
+  gap: 10px;
   flex: 1;
   padding-top: 100px; /* espaço abaixo da top-bar */
   padding-bottom: 100px; /* espaço acima da bottom-nav */
@@ -97,7 +140,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  color: #fff;
+  color: white;
   overflow: hidden;
 }
 
@@ -175,14 +218,34 @@ html, body {
   background: #00e0b3;
 }
 
-/* botão de logout vermelho abaixo das ações */
+/* botão de logout vermelho abaixo das ações (versão aprimorada) */
+/* botão de logout */
 .logout-btn {
   background-color: #f82020;
-  margin-top: 15px;
   border-radius: 50%;
   color: white;
   font-size: 2rem;
   cursor: pointer;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(248, 32, 32, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logout-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(248, 32, 32, 0.6);
+}
+
+/* seção do botão de logout */
+.logout-section {
+  margin-top: -5px;       /* aproxima ainda mais do card */
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 /* estilo geral do modal de confirmação */
@@ -194,6 +257,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 /* oculta elementos que devem estar invisíveis */
@@ -277,8 +341,8 @@ html, body {
 /* destaca botão ativo na barra inferior com cor e brilho */
 .nav-btn.active span,
 .nav-btn.active i {
-  color: #00ffc6;
-  text-shadow: 0 0 10px #00ffc6;
+  color: black;
+  text-shadow: 0 0 10px rgb(72, 255, 0);
   font-weight: bold;
 }
 
@@ -334,4 +398,26 @@ html, body {
   .profile-container {
     transform: scale(0.85);
   }
+}
+
+@media (max-width: 820px) {
+  .top-bar, .bottom-nav { left: 3%; width: 94%; }
+  .app-name { font-size: 1.3rem; }
+  .logo { width: 45px; height: 45px; }
+}
+
+@media (max-width: 600px) {
+  .app-name { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .top-bar, .bottom-nav { left: 2%; width: 96%; }
+  .app-name { font-size: 1rem; }
+}
+
+@media (max-width: 360px) {
+  .app-name { display: none; }
+  .logo { width: 38px; height: 38px; }
+  .nav-btn span { font-size: 0.75rem; }
+  .nav-btn i { font-size: 1.1rem; }
 }

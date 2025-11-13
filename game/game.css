@@ -1,4 +1,6 @@
-/* define a fonte personalizada usada em todo o app */
+/* =============================
+   define a fonte personalizada usada em todo o app
+============================= */
 @font-face {
   font-family: 'NewRodin';
   src: url('/musicas/assets/NewRodin.otf') format('opentype');
@@ -15,8 +17,8 @@ html, body {
   height: 100%;
   overflow: hidden;
   font-family: 'NewRodin', sans-serif;
-  background: url("assets/app_background.jpg") center/cover no-repeat;
-  color: #fff;
+  background: url("assets/fundo4.jpg") center/cover no-repeat;
+  color: black;
   display: flex;
   flex-direction: column;
 }
@@ -63,10 +65,51 @@ html, body {
   height: 50px;
 }
 
+/* estiliza o nome do aplicativo na barra superior */
 .app-name {
+  position: relative;
   font-size: 1.5rem;
   font-weight: 700;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  color: #fff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(81, 255, 0, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgb(0, 255, 255),
+    rgb(255, 255, 255),
+    rgb(81, 255, 0),
+    rgb(255, 255, 255),
+    rgb(0, 255, 255)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGlow 4s ease-in-out infinite;
+}
+
+/* animação: efeito ondulante de brilho colorido */
+@keyframes waveGlow {
+  0% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow:
+      0 0 12px rgba(81, 255, 0, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
 }
 
 /* ===== ÁREA PRINCIPAL ===== */
@@ -91,21 +134,18 @@ html, body {
   padding: 10px 15px;
 }
 
-/* informações do progresso da rodada */
 .round-info {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* indicador textual da rodada */
 #round-indicator {
   font-size: 0.9rem;
   font-weight: 600;
   text-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* barra de progresso de rodadas */
 .round-strip {
   display: flex;
   gap: 8px;
@@ -180,7 +220,6 @@ html, body {
   gap: 10px;
 }
 
-/* ===== EFEITO CRIATIVO NA CAPA ===== */
 .cover-wrap {
   position: relative;
   width: 260px;
@@ -268,7 +307,6 @@ html, body {
   gap: 18px;
 }
 
-/* lista de botões */
 .options {
   display: grid;
   grid-template-columns: 1fr;
@@ -346,7 +384,7 @@ html, body {
 
 .hidden, .visually-hidden { display: none !important; }
 
-/* ===== RODADA / MODAL / TOASTS (mantidos iguais) ===== */
+/* ===== RODADA / BOTÕES / TOASTS ===== */
 .round-actions {
   display: flex;
   flex-direction: column;
@@ -383,7 +421,123 @@ html, body {
   background: rgba(255,255,255,0.35);
 }
 
-/* ===== MODAL / TOAST mantidos ===== */
+/* ===== MODAL FINAL (RESUMO DO JOGO) ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  transition: opacity 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  padding: 30px 25px;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+  animation: modalPop 0.6s ease;
+}
+
+/* estilo glass do modal */
+.modal-content.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 40px rgba(0, 255, 255, 0.25);
+  animation: softGlow 6s infinite ease-in-out;
+}
+
+@keyframes softGlow {
+  0% { box-shadow: 0 0 15px rgba(0,255,255,0.15); }
+  50% { box-shadow: 0 0 35px rgba(0,255,255,0.4); }
+  100% { box-shadow: 0 0 15px rgba(0,255,255,0.15); }
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===== TEXTO FINAL ===== */
+#end-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(0,255,255,0.6);
+  color: #00ffc6;
+}
+
+#final-score {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-content h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0,255,255,0.3);
+}
+
+.modal-content p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+/* ===== BOTÕES ===== */
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.modal-buttons .btn {
+  font-size: 1rem;
+  padding: 12px 0;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: transform 0.25s ease;
+}
+
+.modal-buttons .btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== ILUSTRAÇÃO TROFÉU ===== */
+.modal-trophy {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px auto;
+  background: url('/game/assets/trophy_glass.png') center/contain no-repeat;
+  filter: drop-shadow(0 0 10px rgba(0,255,255,0.6));
+  opacity: 0.95;
+  animation: trophyFloat 4s ease-in-out infinite;
+}
+
+@keyframes trophyFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
 
 /* ===== RESPONSIVIDADE TOTAL ===== */
 @media (max-width: 768px) {
@@ -407,6 +561,21 @@ html, body {
     padding-top: 80px;
     gap: 14px;
   }
+  .modal-content {
+    width: 88%;
+    padding: 25px 20px;
+  }
+  .modal-trophy {
+    width: 70px;
+    height: 70px;
+  }
+  #end-title {
+    font-size: 1.6rem;
+  }
+
+  #final-score {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -416,12 +585,12 @@ html, body {
     height: 55px;
   }
   .cover-wrap {
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
   }
   .option-btn {
     font-size: 0.95rem;
-    padding: 12px;
+    padding: 11px;
   }
   .round-pill {
     width: 14px;
@@ -433,5 +602,52 @@ html, body {
   }
   .feedback {
     font-size: 0.9rem;
+  }
+  .modal-content {
+    width: 92%;
+    padding: 20px 16px;
+  }
+  .modal-trophy {
+    width: 60px;
+    height: 60px;
+  }
+  #end-title {
+    font-size: 1.4rem;
+  }
+
+  #final-score {
+    font-size: 0.95rem;
+  }
+
+  .modal-buttons .btn {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+  .modal-content h2 {
+    font-size: 1.4rem;
+  }
+  .modal-content p {
+    font-size: 0.95rem;
+  }
+  .btn {
+    padding: 9px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .cover-wrap {
+    width: 150px;
+    height: 150px;
+  }
+  .app-name {
+    font-size: 1.2rem;
+  }
+  #artist-name { font-size: 0.95rem; }
+  #track-title { font-size: 0.85rem; }
+  .option-btn { font-size: 0.9rem; }
+  .modal-content {
+    width: 94%;
+    padding: 18px 12px;
   }
 }

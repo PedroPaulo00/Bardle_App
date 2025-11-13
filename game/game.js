@@ -599,7 +599,14 @@ async function adicionarMusicaPlaylist(idMusica) {
 // =============================
 async function finalizarJogo() {
   const total = pontuacoes.reduce((a, b) => a + b, 0);
-  finalScoreEl.textContent = `Pontuação total: ${total}\nAcertos: ${acertos}\nErros: ${erros}`;
+
+  // usa innerHTML para exibir cada item em linha separada
+  finalScoreEl.innerHTML = `
+    <strong>Pontuação total:</strong> ${total}<br>
+    <strong>Acertos:</strong> ${acertos}<br>
+    <strong>Erros:</strong> ${erros}
+  `;
+
   finalModal.classList.remove("hidden");
 
   const user = auth.currentUser;
@@ -621,6 +628,7 @@ async function finalizarJogo() {
     window.location.href = "/home/home.html";
   };
 }
+
 
 // =============================
 //  INÍCIO

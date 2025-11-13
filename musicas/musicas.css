@@ -18,8 +18,8 @@
 html, body {
   height: 100%;
   font-family: 'NewRodin', sans-serif;
-  background: url("/musicas/assets/background.jpg") center/cover no-repeat;
-  color: #fff;
+  background: url("/musicas/assets/fundo3.jpg") center/cover no-repeat;
+  color: black;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -60,11 +60,51 @@ html, body {
   height: 50px;
 }
 
+/* estiliza o nome do aplicativo na barra superior */
 .app-name {
+  position: relative;
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(81, 255, 0, 0.3),
+    0 0 20px rgba(0, 255, 255, 0.2);
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgb(0, 255, 255),
+    rgb(255, 255, 255),
+    rgb(81, 255, 0),
+    rgb(255, 255, 255),
+    rgb(0, 255, 255)
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: waveGlow 4s ease-in-out infinite;
+}
+
+/* animação: efeito ondulante de brilho colorido */
+@keyframes waveGlow {
+  0% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
+  50% {
+    background-position: 100% 50%;
+    text-shadow:
+      0 0 12px rgba(81, 255, 0, 0.7),
+      0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    background-position: 0% 50%;
+    text-shadow:
+      0 0 8px rgba(0, 255, 255, 0.6),
+      0 0 15px rgba(81, 255, 0, 0.4);
+  }
 }
 
 .settings-btn {
@@ -247,7 +287,7 @@ html, body {
 #progress {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #00ffc6, #00a3ff);
+  background: linear-gradient(90deg, #62aa38, #33ff00);
   border-radius: 6px;
   position: relative;
   transition: width 0.25s ease;
@@ -261,8 +301,8 @@ html, body {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ffffff, #00ffc6);
-  box-shadow: 0 0 12px rgba(0,255,198,0.9);
+  background: radial-gradient(circle at 30% 30%, #ffffff, #48ff00);
+  box-shadow: 0 0 12px rgba(51, 255, 0, 0.9);
   z-index: 3;
   transition: left 0.12s linear, transform 0.12s ease;
   pointer-events: none;
@@ -302,7 +342,7 @@ html, body {
 .controls button {
   background: none;
   border: none;
-  color: #fff;
+  color: black;
   font-size: 1.8rem;
   cursor: pointer;
 }
@@ -321,22 +361,80 @@ html, body {
   justify-content: space-between;
   gap: 10px;
   padding: 10px 15px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-  transition: transform 0.2s;
+  border-radius: 14px;
+  background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(170, 255, 150, 0.08)
+    );
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(170, 255, 150, 0.3);
+  box-shadow: 0 0 10px rgba(0, 255, 100, 0.15),
+              inset 0 0 25px rgba(100, 255, 100, 0.05);
+  transition: all 0.35s ease;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
 }
 
-.music-item.playing {
-  border: 2px solid rgba(0,255,198,0.7);
-  background: rgba(0,255,198,0.1);
-  box-shadow: 0 0 12px rgba(0,255,198,0.4);
+/* brilho dinâmico animado passando */
+.music-item::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(180, 255, 120, 0.15) 40%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  animation: glassShine 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes glassShine {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(25deg);
+  }
 }
 
 .music-item:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 0 20px rgba(80, 255, 100, 0.25),
+              inset 0 0 30px rgba(120, 255, 120, 0.08);
 }
 
+/* Estado “tocando” — verde neon limão */
+.music-item.playing {
+  border: 2px solid rgb(51, 255, 0);
+  background: linear-gradient(
+    135deg,
+    rgba(51, 255, 0, 0.35),
+    rgba(170, 255, 150, 0.15)
+  );
+  box-shadow: 0 0 20px rgba(51, 255, 0, 0.6),
+              0 0 40px rgba(51, 255, 0, 0.3);
+  animation: pulseNeon 2s infinite alternate ease-in-out;
+}
+
+@keyframes pulseNeon {
+  from {
+    box-shadow: 0 0 12px rgba(51, 255, 0, 0.4);
+  }
+  to {
+    box-shadow: 0 0 28px rgba(51, 255, 0, 0.7);
+  }
+}
+
+/* imagem */
 .music-item img {
   width: 50px;
   height: 50px;
@@ -345,6 +443,7 @@ html, body {
   flex-shrink: 0;
 }
 
+/* detalhes */
 .music-item .details {
   flex: 1;
   display: flex;
@@ -352,18 +451,38 @@ html, body {
   justify-content: center;
 }
 
-.music-item .details h4 { font-size: 1rem; }
-.music-item .details p { font-size: 0.85rem; color: #b9e4ff; }
+.music-item .details h4 {
+  font-size: 1rem;
+  color: #000;
+  text-shadow: 0 0 10px rgba(94, 255, 0, 0.7);
+  font-weight: 600;
+}
 
-.music-item .actions { display: flex; gap: 10px; }
+.music-item .details p {
+  font-size: 0.85rem;
+  color: #000;
+  opacity: 0.75;
+}
+
+/* botões */
+.music-item .actions {
+  display: flex;
+  gap: 10px;
+}
+
 .music-item .actions button {
   font-size: 1.4rem;
   background: none;
   border: none;
-  color: #fff;
+  color: black;
   cursor: pointer;
+  transition: color 0.25s, transform 0.2s;
 }
-.music-item .actions button:hover { color: #00ffc6; }
+
+.music-item .actions button:hover {
+  color: #38cc2b;
+  transform: scale(1.2);
+}
 
 /* animações extras */
 @keyframes subtleGlow {
@@ -375,19 +494,20 @@ html, body {
   to { transform: scale(1.03); filter: brightness(1.15); }
 }
 @keyframes pulsePlaying {
-  from { background-color: rgba(0,200,255,0.05); }
-  to { background-color: rgba(0,200,255,0.15); }
+  from { background-color: rgba(94, 255, 0, 0.767); }
+  to { background-color: rgba(60, 255, 0, 0.541); }
 }
 
 /* texto da música */
 .now-playing .info h2 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #00ffc6;
-  text-shadow: 0 0 12px rgba(0,255,255,0.4);
+  color: #33ff00;
+  text-shadow: 0 0 12px rgb(0, 0, 0);
 }
 .now-playing .info p {
-  color: #b9e4ff;
+  color: #33ff00;
+  text-shadow: 0 0 12px rgb(0, 0, 0);
   font-size: 1rem;
   opacity: 0.9;
 }
@@ -468,8 +588,8 @@ html, body {
 
 .nav-btn.active span,
 .nav-btn.active i {
-  color: #00ffc6;
-  text-shadow: 0 0 10px #00ffc6;
+  color: black;
+  text-shadow: 0 0 10px rgb(0, 0, 0);
   font-weight: bold;
 }
 .nav-btn:hover { transform: scale(1.05); }

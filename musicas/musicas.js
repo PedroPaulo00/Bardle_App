@@ -392,18 +392,30 @@ function renderPlaylist() {
         </div>
       </div>
       <div class="actions">
-        <button class="play" title="Tocar"><i class="fas fa-play"></i></button>
+        <button class="play" title="Tocar"></button>
         <button class="delete" ${item.fixo ? "disabled" : ""} title="Excluir">
           <i class="fas fa-trash"></i>
         </button>
       </div>
     `
-    li.querySelector(".play").addEventListener("click", () => playItemAt(i))
-    if (!item.fixo)
-      li.querySelector(".delete").addEventListener("click", (e) => {
-        e.stopPropagation()
-        openModal(i) // agora abre modal (e modal/hide está corrigido)
-      })
+    // clique no botão "play"
+li.querySelector(".play").addEventListener("click", (e) => {
+  e.stopPropagation() // impede duplicação do clique
+  playItemAt(i)
+})
+
+// clique no botão "excluir"
+if (!item.fixo)
+  li.querySelector(".delete").addEventListener("click", (e) => {
+    e.stopPropagation()
+    openModal(i)
+  })
+
+// NOVO: clique em qualquer parte do item toca a música
+li.addEventListener("click", () => {
+  playItemAt(i)
+})
+
     musicListEl.appendChild(li)
   })
   highlightCurrentSong()
