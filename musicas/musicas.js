@@ -77,7 +77,7 @@ function buildAudioPath(field) {
   if (!field) return ""
   if (isFullUrl(field)) return field
   const name = basename(field)
-  return `/sounds/${name}`
+  return `/public/sounds/${name}`
 }
 
 // mostra um aviso rápido na tela (aparece somente quando chamado)

@@ -1,5 +1,5 @@
 // =============================
-// game.js — Tela de jogo Bardle (ATUALIZADO)
+// game.js — Tela de jogo Bardle (ATUALIZADO + OVERLAY GLASS)
 // =============================
 
 import { firebaseConfig } from "/game/firebase/firebase-config.js";
@@ -50,13 +50,82 @@ const goHomeBtn = document.getElementById("go-home-btn");
 const roundStrip = document.getElementById("round-strip");
 const roundIndicator = document.getElementById("round-indicator");
 
-// Overlays / helper containers (criados dinamicamente se não existirem)
+// =============================
+//  OVERLAY "TOQUE PARA COMEÇAR"
+// =============================
+const startOverlay = document.createElement("div");
+startOverlay.id = "start-overlay";
+startOverlay.innerHTML = `
+  <div class="glass-panel">
+    <h2>CERTIFIQUE-SE DE AUMENTAR O VOLUME OU COLOCAR FONES DE OUVIDO!!</h2>
+    <h2>Pronto?</h2>
+    <button id="start-btn">COMEÇAR</button>
+  </div>
+`;
+document.body.appendChild(startOverlay);
+
+// estilo inline para o overlay
+const style = document.createElement("style");
+style.textContent = `
+#start-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.glass-panel {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 40px 60px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
+  color: white;
+  backdrop-filter: blur(15px);
+}
+.glass-panel h2 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+#start-btn {
+  padding: 12px 32px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(90deg, rgb(0,255,255), rgb(81,255,0));
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0,255,255,0.7);
+}
+`;
+document.head.appendChild(style);
+
+// ao clicar, remove overlay e inicia o jogo
+document.getElementById("start-btn").addEventListener("click", () => {
+  startOverlay.classList.add("fade-out");
+  startOverlay.style.transition = "opacity 0.5s ease";
+  startOverlay.style.opacity = "0";
+  setTimeout(() => startOverlay.remove(), 500);
+  carregarMusicas(); // inicia tudo
+});
+
+// =============================
+//  VARIÁVEIS DE ESTADO
+// =============================
 let screenFlashOverlay = null;
 let fireworksCanvas = null;
 let progressTimeEl = null;
 let progressKnob = null;
-
-// variáveis de estado do jogo
 let musicas = [];
 let rodadaAtual = 0;
 let pontuacoes = [];
@@ -80,7 +149,6 @@ function showToast(msg) {
   setTimeout(() => toast.remove(), 3000);
 }
 
-// atualiza os indicadores de rodada (as bolinhas do topo)
 function updateRoundIndicators() {
   const pills = document.querySelectorAll(".round-pill");
   pills.forEach((p, i) => {
@@ -94,7 +162,6 @@ function updateRoundIndicators() {
   roundIndicator.textContent = `Rodada ${rodadaAtual + 1} / 10`;
 }
 
-/* ===== UTIL: cria overlay para flash vermelho (se necessário) ===== */
 function ensureScreenFlashOverlay() {
   if (!screenFlashOverlay) {
     screenFlashOverlay = document.createElement("div");
@@ -112,13 +179,9 @@ function ensureScreenFlashOverlay() {
   return screenFlashOverlay;
 }
 
-/* ===== UTIL: flash vermelho (errado) - 2 piscos de 1s ===== */
 async function flashRedTwice() {
   const overlay = ensureScreenFlashOverlay();
-
   const sleep = ms => new Promise(res => setTimeout(res, ms));
-
-  // cada pisco será: fade-in 150ms -> manter 700ms -> fade-out 150ms
   for (let i = 0; i < 2; i++) {
     overlay.style.transition = "background 0.15s linear";
     overlay.style.background = "rgba(255,0,0,0.45)";
@@ -129,16 +192,11 @@ async function flashRedTwice() {
   }
 }
 
-/* ===== FIREWORKS =====
-   cria canvas, desenha partículas por 2s e remove.
-*/
 function createFireworks(duration = 2000) {
-  // cria canvas overlay
   if (fireworksCanvas) {
     fireworksCanvas.remove();
     fireworksCanvas = null;
   }
-
   const c = document.createElement("canvas");
   c.style.position = "fixed";
   c.style.left = 0;
@@ -149,8 +207,6 @@ function createFireworks(duration = 2000) {
   c.style.zIndex = 10000;
   document.body.appendChild(c);
   fireworksCanvas = c;
-
-  // ajustar resolução para tela
   const ctx = c.getContext("2d");
   function resizeCanvas() {
     c.width = innerWidth * devicePixelRatio;
@@ -161,12 +217,8 @@ function createFireworks(duration = 2000) {
   }
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
-
-  // partículas simples
   const particles = [];
   const rand = (a,b) => a + Math.random() * (b-a);
-
-  // cria alguns estouros em posições aleatórias
   const bursts = Math.max(3, Math.floor(innerWidth / 300));
   for (let b = 0; b < bursts; b++) {
     const cx = rand(0.15,0.85) * innerWidth;
@@ -177,30 +229,21 @@ function createFireworks(duration = 2000) {
       const angle = Math.random() * Math.PI * 2;
       const speed = rand(1, 6);
       particles.push({
-        x: cx,
-        y: cy,
+        x: cx, y: cy,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: rand(600, 1200),
-        age: 0,
-        size: rand(1.5, 3.5),
-        hue,
+        age: 0, size: rand(1.5, 3.5), hue,
       });
     }
   }
-
   let last = performance.now();
   let running = true;
-
   function frame(now) {
     if (!running) return;
     const dt = now - last;
     last = now;
-
-    // limpar
     ctx.clearRect(0,0,innerWidth,innerHeight);
-
-    // atualizar e desenhar partículas
     for (let i = particles.length -1; i >= 0; i--) {
       const p = particles[i];
       p.age += dt;
@@ -208,11 +251,9 @@ function createFireworks(duration = 2000) {
         particles.splice(i,1);
         continue;
       }
-      // física simples
-      p.vy += 0.02 * (dt/16); // gravidade leve
+      p.vy += 0.02 * (dt/16);
       p.x += p.vx * (dt/16);
       p.y += p.vy * (dt/16);
-
       const alpha = 1 - (p.age / p.life);
       ctx.beginPath();
       ctx.globalCompositeOperation = "lighter";
@@ -220,16 +261,9 @@ function createFireworks(duration = 2000) {
       ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
       ctx.fill();
     }
-
-    // desenha traços brilhantes
-    ctx.globalCompositeOperation = "lighter";
-
     if (particles.length > 0) requestAnimationFrame(frame);
   }
-
   requestAnimationFrame(frame);
-
-  // remover após duration
   setTimeout(() => {
     running = false;
     window.removeEventListener("resize", resizeCanvas);
@@ -452,7 +486,7 @@ function iniciarRodada() {
   }
 
   // caminho ajustado para pasta sounds fora de /game
-  currentAudio = new Audio(`../sounds/${musica.url_audio_local.split("/").pop()}`);
+  currentAudio = new Audio(`../public/sounds/${musica.url_audio_local.split("/").pop()}`);
   currentAudio.load();
 
   currentAudio.addEventListener("loadedmetadata", () => {
@@ -633,6 +667,7 @@ async function finalizarJogo() {
 // =============================
 //  INÍCIO
 // =============================
+// só inicia o Firebase e espera clique do botão COMEÇAR
 onAuthStateChanged(auth, () => {
-  carregarMusicas();
+  // nada aqui — inicia após clique no overlay
 });
