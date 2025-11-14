@@ -4,70 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bardle - Entrar</title>
+
+  <!-- CSS principal -->
   <link rel="stylesheet" href="auth.css">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-BxylM3b2Yj9Zs8NLnRA/H8x/JfB5xjT1ZJ4hPtMxxe8Kce6GnE4G8cG2Vz4xIWwUM99/7Y3aK0mJQfG0nLRKvg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/musicas/assets/bardle.png" />
-    <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
+  <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
 </head>
 <body>
-  <!-- fundo fixo com imagem estilizada -->
+  <!-- Fundo com efeito glass -->
   <div class="background"></div>
 
-  <!-- container principal da tela de autenticação -->
+  <!-- Container principal -->
   <main class="auth-container">
-    <!-- logotipo do app -->
     <img src="./assets/bardle.png" alt="Logo Bardle" class="logo">
-    <!-- nome do aplicativo -->
     <h1 class="app-name">BARDLE</h1>
 
-    <!-- tela de boas-vindas inicial -->
+    <!-- Tela de boas-vindas -->
     <section id="welcome-screen" class="panel">
-      <h2 class="welcome-text">Bem-vindo ao Bardle, sua nova forma interativa de descobrir músicas! </h2>
+      <h2 class="welcome-text">Bem-vindo ao Bardle, sua nova forma interativa de descobrir músicas!</h2>
       <button id="enter-btn" class="primary">Entre já!</button>
     </section>
 
-    <!-- formulário de login -->
+    <!-- Login -->
     <section id="login-form" class="panel hidden">
       <h2>Entrar</h2>
-      <!-- campo de e-mail -->
-      <input type="email" id="login-email" placeholder="E-mail">
-      <!-- campo de senha -->
-      <input type="password" id="login-password" placeholder="Senha">
-      <!-- botão principal de login -->
+      <div class="input-wrapper">
+        <i class="fa-solid fa-envelope input-icon"></i>
+        <input type="email" id="login-email" placeholder="E-mail">
+      </div>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-lock input-icon"></i>
+        <input type="password" id="login-password" placeholder="Senha">
+      </div>
       <button id="login-btn" class="primary">Entrar</button>
 
-      <!-- botão para login com google -->
       <button id="google-btn" class="google-btn">
         <img src="./assets/google-icon.svg" alt="Google"> Entrar com Google
       </button>
 
-      <!-- link para redirecionar ao cadastro -->
-      <p class="link">Não tem conta? <span id="to-register">Cadastre-se já!</span></p>
-      <!-- área de feedback de login -->
+      <p class="link">Não tem conta? 
+        <span id="to-register" class="register-login-visual highlight-green">Cadastre-se já!</span>
+      </p>
       <p id="feedback-login" class="feedback"></p>
     </section>
 
-    <!-- formulário de cadastro -->
+    <!-- Cadastro -->
     <section id="register-form" class="panel hidden">
-      <!-- cabeçalho com botão de voltar -->
       <div class="register-header">
         <button id="back-arrow" title="Voltar">&#8592;</button>
         <h2>Criar Conta</h2>
       </div>
 
-      <!-- campos de cadastro -->
-      <input type="text" id="reg-nick" placeholder="Nickname">
-      <input type="email" id="reg-email" placeholder="E-mail">
-      <input type="password" id="reg-password" placeholder="Senha">
-      <input type="url" id="reg-img" placeholder="URL da imagem de perfil">
+      <div class="input-wrapper">
+        <i class="fa-solid fa-user input-icon"></i>
+        <input type="text" id="reg-nick" placeholder="Nickname">
+      </div>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-envelope input-icon"></i>
+        <input type="email" id="reg-email" placeholder="E-mail">
+      </div>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-lock input-icon"></i>
+        <input type="password" id="reg-password" placeholder="Senha">
+      </div>
+      <div class="input-wrapper">
+        <i class="fa-solid fa-image input-icon"></i>
+        <input type="url" id="reg-img" placeholder="URL da imagem de perfil">
+      </div>
 
-      <!-- botão de envio do cadastro -->
       <button id="register-btn" class="primary">Cadastrar</button>
-      <!-- área de feedback do cadastro -->
       <p id="feedback-register" class="feedback"></p>
     </section>
   </main>
 
-  <!-- script principal da autenticação -->
+  <!-- JS principal -->
   <script type="module" src="auth.js"></script>
 </body>
 </html>

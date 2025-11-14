@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loader Premium Teste</title>
+  <link rel="stylesheet" href="loader.css">
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/727/727218.png">
+</head>
+<body>
+  <h1 style="color:white;text-align:center;margin-top:50px;">Página de teste do Loader Premium 3.0</h1>
+
+  <!-- Inclui o loader -->
+  <script type="module" src="loader.js"></script>
+  <script type="module">
+    import { pageReady } from './loader.js';
+
+    // Simula carregamento infinito (exemplo)
+    const fakeLoad = () => new Promise(resolve => {
+      setTimeout(() => {
+        console.log("Fake API carregada!");
+        resolve();
+      }, 100000); // 100 segundos apenas para teste infinito
+    });
+
+    pageReady(fakeLoad);
+  </script>
+</body>
+</html>
