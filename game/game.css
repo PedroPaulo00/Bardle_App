@@ -25,6 +25,7 @@
 
   /* touch targets mínimos */
   --touch-min: 44px;
+  --vh: 1vh;
 }
 
 /* preferências de acessibilidade */
@@ -163,6 +164,7 @@ html, body {
 
 /* ===== ÁREA PRINCIPAL ===== */
 .game-container {
+  height: calc(var(--vh, 1vh) * 100);
   flex: 1;
   display: flex;
   flex-direction: column;
