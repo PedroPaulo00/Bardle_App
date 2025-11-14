@@ -46,18 +46,18 @@ const DEFAULT_COVER = "https://m.media-amazon.com/images/I/41XnjwqvnYL._UXNaN_FM
 const placeholders = [
   {
     id: "placeholder1",
-    titulo: "Id",
-    artista: "Keshi",
-    url: "assets/keshi.mp3",
-    capa: "https://i1.sndcdn.com/artworks-vydeGd0WgUVQ-0-t500x500.jpg",
+    titulo: "Lovers Rock",
+    artista: "TV Girl",
+    url: "assets/tvgirl.mp3",
+    capa: "https://i.discogs.com/oxJAWgiPHfyfEgnTgNJMcqDMPp9UXoj8OaS-qqAtOtc/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxNzAx/MjU3LTE2NDE5NTAw/NTUtOTc3OS5qcGVn.jpeg",
     fixo: true
   },
   {
     id: "placeholder2",
-    titulo: "e-Asphyxiation",
-    artista: "Cafuné",
-    url: "assets/cafune.mp3",
-    capa: "https://f4.bcbits.com/img/a3615129963_10.jpg",
+    titulo: "City Of Stars",
+    artista: "Ryan Gosling & Emma Stone",
+    url: "assets/cityofstars.mp3",
+    capa: "https://i1.sndcdn.com/artworks-000202679424-ivrw3g-t500x500.jpg",
     fixo: true
   }
 ]
