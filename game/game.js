@@ -560,44 +560,48 @@ function gerarOpcoes(musica, interval) {
 // =============================
 async function finalizarRodada(acertou, musica, tempoEsgotado = false, pontuacaoRodada = 0, btnSelecionado = null) {
   const botoes = document.querySelectorAll(".option-btn");
+
+  // desabilita todos os botões no clique
   botoes.forEach(btn => btn.classList.add("disabled"));
 
+  // marcações visuais
   botoes.forEach(btn => {
-    if (btn.textContent === musica.titulo) btn.classList.add("correct");
-    else if (btn === btnSelecionado && !acertou) btn.classList.add("wrong");
-    else btn.classList.add("disabled");
+    if (btn.textContent === musica.titulo) {
+      btn.classList.add("correct"); // verde com brilho
+    } else if (btn === btnSelecionado && !acertou) {
+      btn.classList.add("wrong"); // vermelho com brilho
+    } else {
+      btn.classList.add("disabled-gray"); // cinza
+    }
   });
 
+  // FEEDBACKS
   if (tempoEsgotado) {
     feedbackEl.textContent = "⏰ Tempo esgotado!";
     feedbackEl.className = "feedback timeout";
     erros++;
-    // flash vermelho ao tempo esgotado? (seguir regra de erro)
-    flashRedTwice();
+    flashRedTwice(); // efeito erro
   } else if (acertou) {
     feedbackEl.textContent = "✅ Você acertou!";
     feedbackEl.className = "feedback correct";
     acertos++;
-    // show fireworks por 2s
-    createFireworks(2000);
+    createFireworks(2000); // fogos por 2s
   } else {
     feedbackEl.textContent = "❌ Você errou!";
     feedbackEl.className = "feedback wrong";
     erros++;
-    // piscar vermelho 2x, cada pisco 1s
     flashRedTwice();
   }
 
   feedbackEl.classList.remove("hidden");
-  pontuacoes.push(pontuacaoRodada);
 
+  pontuacoes.push(pontuacaoRodada);
   updateRoundIndicators();
 
   nextRoundBtn.classList.remove("hidden");
   addToPlaylistBtn.classList.remove("hidden");
 
   nextRoundBtn.onclick = () => {
-    // reset UI extras antes de avançar
     if (currentAudio) {
       currentAudio.pause();
       currentAudio = null;
@@ -609,6 +613,7 @@ async function finalizarRodada(acertou, musica, tempoEsgotado = false, pontuacao
 
   addToPlaylistBtn.onclick = () => adicionarMusicaPlaylist(musica.id);
 }
+
 
 // =============================
 //  ADICIONAR À PLAYLIST

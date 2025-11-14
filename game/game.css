@@ -6,11 +6,39 @@
   src: url('/musicas/assets/NewRodin.otf') format('opentype');
 }
 
+/* ===== VARIÁVEIS E AJUSTES RESPONSIVOS GLOBAIS ===== */
+:root{
+  /* cores principais */
+  --accent-cyan: rgb(0,255,255);
+  --accent-lime: rgb(81,255,0);
+  --accent-gradient-start: #00ffc6;
+  --accent-gradient-end: #00bfff;
+
+  /* espaçamentos base (ajustados com clamp para diferentes telas) */
+  --base-gap: clamp(8px, 1.2vw, 20px);
+  --base-radius: clamp(10px, 1.2vw, 24px);
+
+  /* tipografia base responsiva */
+  --font-size-base: clamp(14px, 1.95vw, 18px);
+  --font-size-lg: clamp(18px, 2.4vw, 24px);
+  --font-size-xl: clamp(22px, 3.2vw, 32px);
+
+  /* touch targets mínimos */
+  --touch-min: 44px;
+}
+
+/* preferências de acessibilidade */
+@media (prefers-reduced-motion: reduce){
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
 /* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
@@ -21,22 +49,35 @@ html, body {
   color: black;
   display: flex;
   flex-direction: column;
+  font-size: var(--font-size-base);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* utility: ensure visible focus outlines for keyboard users */
+:focus {
+  outline: 3px solid rgba(0,255,255,0.25);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
 /* ===== EFEITO GLASS ===== */
 .glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(14px) saturate(180%);
-  border-radius: 20px;
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-radius: var(--base-radius);
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 4px 30px rgba(0,0,0,0.25);
+  color: inherit;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .glass-highlight {
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(18px) saturate(200%);
+  -webkit-backdrop-filter: blur(18px) saturate(200%);
   border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 20px;
+  border-radius: var(--base-radius);
 }
 
 /* ===== TOP BAR ===== */
@@ -50,6 +91,7 @@ html, body {
   justify-content: center;
   align-items: center;
   z-index: 10;
+  pointer-events: none; /* area não interativa por padrão */
 }
 
 .logo-area {
@@ -63,6 +105,7 @@ html, body {
 .logo {
   width: 50px;
   height: 50px;
+  flex: 0 0 auto;
 }
 
 /* estiliza o nome do aplicativo na barra superior */
@@ -86,8 +129,11 @@ html, body {
   );
   background-size: 300% 100%;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: waveGlow 4s ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* animação: efeito ondulante de brilho colorido */
@@ -112,6 +158,9 @@ html, body {
   }
 }
 
+/* make top-bar interactive children actually clickable (re-enable where needed) */
+.top-bar * { pointer-events: auto; }
+
 /* ===== ÁREA PRINCIPAL ===== */
 .game-container {
   flex: 1;
@@ -119,10 +168,12 @@ html, body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding-top: 100px;
-  gap: 20px;
+  padding-top: clamp(80px, 8vh, 110px);
+  gap: var(--base-gap);
   max-height: 100vh;
   overflow: hidden;
+  width: 100%;
+  position: relative;
 }
 
 /* ===== HEADER DO JOGO ===== */
@@ -130,8 +181,9 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  width: min(1100px, 90%);
   padding: 10px 15px;
+  gap: 12px;
 }
 
 .round-info {
@@ -150,6 +202,7 @@ html, body {
   display: flex;
   gap: 8px;
   justify-content: flex-start;
+  align-items: center;
 }
 
 /* ===== RODADAS MELHORADAS ===== */
@@ -160,6 +213,7 @@ html, body {
   background: rgba(255,255,255,0.4);
   transition: 0.4s ease;
   box-shadow: 0 0 8px rgba(255,255,255,0.3);
+  flex: 0 0 auto;
 }
 
 .round-pill.active {
@@ -211,23 +265,24 @@ html, body {
 
 /* ===== CAPA E ARTISTA ===== */
 .now-playing {
-  width: 90%;
+  width: min(1100px, 90%);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 15px;
+  padding: clamp(10px, 1.6vw, 18px);
   gap: 10px;
 }
 
 .cover-wrap {
   position: relative;
-  width: 260px;
-  height: 260px;
-  border-radius: 20px;
+  width: clamp(160px, 28vw, 260px);
+  height: clamp(160px, 28vw, 260px);
+  border-radius: var(--base-radius);
   overflow: hidden;
   box-shadow: 0 0 25px rgba(0,255,255,0.3);
   animation: coverPulse 4s infinite ease-in-out;
+  flex: 0 0 auto;
 }
 
 @keyframes coverPulse {
@@ -251,8 +306,8 @@ html, body {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  width: 70px;
-  height: 70px;
+  width: clamp(54px, 7vw, 70px);
+  height: clamp(54px, 7vw, 70px);
   border-radius: 50%;
   border: 3px solid #fff;
   object-fit: cover;
@@ -299,7 +354,7 @@ html, body {
 
 /* ===== OPÇÕES ===== */
 .options-panel {
-  width: 90%;
+  width: min(1100px, 90%);
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -314,20 +369,41 @@ html, body {
   width: 100%;
 }
 
+/* responsividade: permita duas colunas em telas maiores */
+@media (min-width: 820px) {
+  .options { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+
 /* ===== BOTÕES REFEITOS ===== */
 .option-btn {
   width: 100%;
   padding: 14px;
+  min-height: var(--touch-min);
   border-radius: 12px;
   border: none;
   font-weight: bold;
   font-size: 1rem;
-  background: linear-gradient(135deg, #00bfff, #00ffc6);
+
+  /* seu gradiente original (verde limão Frutiger Aero) */
+  background: linear-gradient(135deg, #a6ff00, #00ff85);
   color: #000;
+
   cursor: pointer;
-  transition: 0.25s ease;
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  /* transições suaves (expandido) */
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
 }
 
 .option-btn::after {
@@ -342,6 +418,16 @@ html, body {
   transition: opacity 0.4s ease;
 }
 
+/* efeito frutiger aero de clique */
+.option-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.option-btn:active::after {
+  opacity: 1;
+}
+
 .option-btn:hover::after {
   opacity: 1;
   animation: buttonWave 1s linear;
@@ -353,22 +439,51 @@ html, body {
 }
 
 .option-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
 }
 
+/* correto — verde frutiger aero */
 .option-btn.correct {
-  background: #00ff88;
-  color: #000;
+  background: linear-gradient(135deg, #00ff7b, #00c853);
+  color: white !important;
+  box-shadow: 0 0 18px rgba(0, 255, 120, 0.8), 0 0 35px rgba(0, 255, 120, 0.4);
+  transform: scale(1.03);
+  animation: aeroPulse 0.9s ease-out;
 }
 
+@keyframes aeroPulse {
+  0% { box-shadow: 0 0 14px rgba(0,255,120,0.5); }
+  50% { box-shadow: 0 0 30px rgba(0,255,120,1); }
+  100% { box-shadow: 0 0 14px rgba(0,255,120,0.5); }
+}
+
+/* errado — vermelho com brilho */
 .option-btn.wrong {
-  background: #ff4444;
-  color: #fff;
+  background: linear-gradient(135deg, #ff1744, #d50000);
+  color: white !important;
+  box-shadow: 0 0 18px rgba(255, 50, 50, 0.8), 0 0 35px rgba(255, 30, 30, 0.4);
+  transform: scale(0.98);
 }
 
+/* desabilitado — cinza */
+.option-btn.disabled-gray {
+  background: rgba(120, 120, 120, 0.35) !important;
+  color: #ddd !important;
+  box-shadow: none !important;
+  filter: grayscale(1);
+}
+
+/* desabilitação padrão */
 .option-btn.disabled {
   pointer-events: none;
-  opacity: 0.7;
+  cursor: default;
+}
+
+
+/* make large hit area for small screens */
+@media (max-width: 420px) {
+  .option-btn { padding: 16px; font-size: 1rem; }
 }
 
 /* ===== FEEDBACK ===== */
@@ -401,6 +516,8 @@ html, body {
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
+  min-height: var(--touch-min);
+  touch-action: manipulation;
 }
 
 .btn.primary {
@@ -410,6 +527,8 @@ html, body {
 
 .btn.primary:hover {
   background: #00e0b3;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
 .btn.secondary {
@@ -431,7 +550,9 @@ html, body {
   z-index: 50;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: opacity 0.4s ease;
+  pointer-events: auto;
 }
 
 @keyframes fadeIn {
@@ -454,6 +575,7 @@ html, body {
 .modal-content.glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 40px rgba(0, 255, 255, 0.25);
   animation: softGlow 6s infinite ease-in-out;
@@ -539,7 +661,7 @@ html, body {
   50% { transform: translateY(-8px); }
 }
 
-/* ===== RESPONSIVIDADE TOTAL ===== */
+/* ===== RESPONSIVIDADE TOTAL (padrão original) ===== */
 @media (max-width: 768px) {
   html, body {
     overflow: hidden;
@@ -578,6 +700,7 @@ html, body {
   }
 }
 
+/* ajustes para telefones bem pequenos */
 @media (max-width: 480px) {
   .top-bar {
     width: 96%;
@@ -635,6 +758,7 @@ html, body {
   }
 }
 
+/* ajustes para telas muito pequenas (antigos 320px / dispositivos compactos) */
 @media (max-width: 360px) {
   .cover-wrap {
     width: 150px;
@@ -663,6 +787,7 @@ html, body {
   width: 100%;
   height: 100%;
   backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
   background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
@@ -670,6 +795,7 @@ html, body {
   z-index: 9999;
   opacity: 0;
   animation: fadeInOverlay 0.8s ease forwards;
+  pointer-events: auto;
 }
 
 /* Painel glass translúcido */
@@ -687,8 +813,12 @@ html, body {
   box-shadow: 0 0 40px rgba(255, 255, 255, 0.15),
               inset 0 0 20px rgba(0, 255, 255, 0.2);
   backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   transform: scale(0.95);
   animation: glassPopIn 0.6s ease-out forwards;
+  width: min(720px, 92%);
+  max-width: 760px;
+  padding-inline: clamp(24px, 8vw, 70px);
 }
 
 /* Texto */
@@ -718,6 +848,8 @@ html, body {
   animation: btnGradient 3s ease infinite;
   box-shadow: 0 0 18px rgba(0, 255, 255, 0.5);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-height: var(--touch-min);
+  touch-action: manipulation;
 }
 
 #start-btn:hover {
@@ -761,3 +893,128 @@ html, body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+/* ======================
+   ADIÇÕES PARA DISPOSITIVOS MÓVEIS MODERNOS
+   (melhora responsividade para variados tamanhos: 320–1440)
+   ====================== */
+
+/* layout container fluid across many widths */
+.container-center {
+  width: 100%;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-inline: clamp(12px, 4vw, 24px);
+}
+
+/* adaptive spacing helpers */
+.stack { display: flex; flex-direction: column; gap: var(--base-gap); }
+.row { display: flex; gap: var(--base-gap); align-items: center; }
+
+/* ensure minimum tap target for interactive elements */
+a, button, .btn, .option-btn {
+  -webkit-tap-highlight-color: transparent;
+  min-height: var(--touch-min);
+  line-height: 1.2;
+  padding-inline: clamp(12px, 3vw, 20px);
+}
+
+/* orientation-specific rules */
+@media (orientation: landscape) and (max-width: 900px) {
+  .game-container { padding-top: clamp(50px, 6vh, 80px); gap: 10px; }
+  .cover-wrap { width: clamp(140px, 25vw, 220px); height: clamp(140px, 25vw, 220px); }
+  .glass-panel { padding: clamp(20px, 6vw, 45px); }
+}
+
+/* support for tall devices (modern phones with notch / tall aspect ratios) */
+@media (min-aspect-ratio: 9/19) and (max-width: 900px) {
+  .top-bar { top: 16px; }
+  .game-container { padding-top: 100px; }
+}
+
+/* high-density screens: slightly scale down heavy shadows for performance */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .box-shadow-soft { box-shadow: none; }
+}
+
+/* extra small phones ~ 320–375 (iPhone SE / small androids) */
+@media (max-width: 375px) {
+  :root { --base-gap: 10px; --base-radius: 12px; }
+  .glass-panel { padding: 28px 18px; border-radius: 16px; }
+  .app-name { font-size: 1.1rem; }
+  .top-bar { height: 54px; top: 8px; }
+  .cover-wrap { width: 140px; height: 140px; }
+  .modal-content { padding: 16px 12px; border-radius: 18px; }
+  #start-btn { padding: 12px 28px; font-size: 1rem; }
+}
+
+/* small phones ~ 376–420 (most modern small phones) */
+@media (min-width: 376px) and (max-width: 420px) {
+  :root { --base-gap: 12px; --base-radius: 14px; }
+  .glass-panel { padding: 32px 22px; }
+  .cover-wrap { width: 160px; height: 160px; }
+}
+
+/* medium phones ~ 421–540 */
+@media (min-width: 421px) and (max-width: 540px) {
+  :root { --base-gap: 14px; --base-radius: 16px; }
+  .cover-wrap { width: 180px; height: 180px; }
+  .modal-content { max-width: 420px; }
+}
+
+/* phablets / small tablets ~ 541–767 */
+@media (min-width: 541px) and (max-width: 767px) {
+  :root { --base-gap: 16px; --base-radius: 18px; }
+  .options { grid-template-columns: 1fr 1fr; }
+  .cover-wrap { width: 210px; height: 210px; }
+  .game-header { padding: 12px 16px; }
+}
+
+/* large phones / small laptops ~ 768–1024 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root { --base-gap: 18px; --base-radius: 20px; }
+  .game-container { padding-top: 96px; }
+  .options { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+
+/* very large / desktop */
+@media (min-width: 1025px) {
+  .app-name { font-size: var(--font-size-xl); }
+  .game-container { padding-top: 110px; }
+}
+
+/* ===== ACCESSIBILITY & PERFORMANCE HELPERS ===== */
+/* make clickable label areas larger for mobile */
+.label-hit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+/* Visually-hidden but accessible text for screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* reduce heavy glows on low-powered devices via media query */
+@media (max-width: 420px) {
+  .app-name { text-shadow: 0 1px 6px rgba(0,0,0,0.45); animation-duration: 6s; }
+  .cover-wrap { box-shadow: 0 0 12px rgba(0,255,255,0.12); }
+  .modal-content.glass { box-shadow: 0 8px 24px rgba(0,255,255,0.15); }
+}
+
+/* ===== FALLBACKS E NOTES ===== */
+/* Some browsers show a warning for -webkit-background-clip: text when used with -webkit-text-fill-color: transparent.
+   The pair is required for the text gradient effect. The appearance of a yellow underline in editors (e.g. VSCode) is a lint warning
+   not a runtime error; it's safe to keep both for the desired visual effect. */
+
+/* ===== END - estilo base e responsivo para dispositivos móveis modernos ===== */
