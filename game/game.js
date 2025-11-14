@@ -668,6 +668,14 @@ async function finalizarJogo() {
   };
 }
 
+// ajusta a variável --vh dinamicamente para 100% da tela real
+function fixVh() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight / 100}px`);
+}
+
+window.addEventListener('resize', fixVh);
+fixVh();
+
 
 // =============================
 //  INÍCIO
