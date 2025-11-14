@@ -24,8 +24,11 @@
   --font-size-xl: clamp(22px, 3.2vw, 32px);
 
   /* touch targets mínimos */
-  --touch-min: 44px;
+  --touch-min: 48px;
   --vh: 1vh;
+  --primary-gradient: linear-gradient(135deg, #a6ff00, #00ff85);
+  --correct-glow: 0 0 15px #00ff85;
+  --wrong-glow: 0 0 15px #ff3b3b;
 }
 
 /* preferências de acessibilidade */
@@ -44,6 +47,8 @@
 
 html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   font-family: 'NewRodin', sans-serif;
   background: url("assets/fundo4.jpg") center/cover no-repeat;
