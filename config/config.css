@@ -124,7 +124,19 @@ html,body {
   gap:12px;
   cursor:pointer;
   user-select:none;
+ animation: rgbGlow 3s infinite linear;
 }
+
+
+/* Animação de brilho RGB geral */
+@keyframes rgbGlow {
+  0%   { filter: drop-shadow(0 0 12px #00ffe0) drop-shadow(0 0 24px #00ffe0); }
+  25%  { filter: drop-shadow(0 0 12px #00ff80) drop-shadow(0 0 24px #00ff80); }
+  50%  { filter: drop-shadow(0 0 12px #00aaff) drop-shadow(0 0 24px #00aaff); }
+  75%  { filter: drop-shadow(0 0 12px #00fffb) drop-shadow(0 0 24px #00fffb); }
+  100% { filter: drop-shadow(0 0 12px #00ffe0) drop-shadow(0 0 24px #00ffe0); }
+}
+
 .logo {
   width:56px;
   height:56px;

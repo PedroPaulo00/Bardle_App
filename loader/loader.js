@@ -1,20 +1,15 @@
-// loader.js - Loader Premium Inteligente 3.0
-
-// Adiciona Font Awesome se não estiver carregado
-if (!document.querySelector('link[href*="font-awesome"]')) {
-  const faLink = document.createElement('link');
-  faLink.rel = 'stylesheet';
-  faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css';
-  document.head.appendChild(faLink);
-}
+// loader.js — Loader Premium Inteligente 3.0 (ATUALIZADO)
 
 // Injeta HTML do loader
 const createLoader = () => {
   if (document.getElementById('page-loader')) return;
+
   const loaderHTML = `
     <div id="page-loader">
       <div class="loader-panel">
-        <div class="loader-icon"><i class="fa-solid fa-music"></i></div>
+        <div class="loader-icon">
+          <img src="/loader/assets/bardle.png" alt="Logo"> <!-- AQUI!! LOGO GIRANDO -->
+        </div>
         <p class="loader-text">Carregando...</p>
         <div class="loader-bar"><div class="loader-progress"></div></div>
       </div>
@@ -39,7 +34,7 @@ export const hideLoader = () => {
   setTimeout(() => { loader.style.display = 'none'; }, 500);
 };
 
-// Controle de carregamento inteligente
+// Controle inteligente
 let readyPromises = [];
 let isWindowLoaded = false;
 
@@ -48,7 +43,7 @@ window.addEventListener('load', () => {
   checkReady();
 });
 
-// Registrar uma promise ou função async
+// Registrar promise ou função async
 export const pageReady = (promiseOrFunc) => {
   if (typeof promiseOrFunc === 'function') {
     promiseOrFunc = promiseOrFunc();

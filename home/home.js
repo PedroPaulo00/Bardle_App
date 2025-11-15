@@ -1,7 +1,7 @@
 import { firebaseConfig } from "/home/firebase/firebase-config.js"; //AQUI!! Config Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"; //AQUI!! Inicialização Firebase
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"; //AQUI!! Auth Firebase
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; //AQUI!! Firestore Firebase
+import { getFirestore, doc, getDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js"; //AQUI!! Firestore Firebase
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig); //AQUI!! Inicializa App Firebase

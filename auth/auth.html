@@ -3,86 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bardle - Entrar</title>
+  <title>Bardle // Auth</title>
 
   <!-- CSS principal -->
   <link rel="stylesheet" href="auth.css">
 
   <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-BxylM3b2Yj9Zs8NLnRA/H8x/JfB5xjT1ZJ4hPtMxxe8Kce6GnE4G8cG2Vz4xIWwUM99/7Y3aK0mJQfG0nLRKvg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="/musicas/assets/bardle.png" />
   <link rel="icon" type="image/png" href="/musicas/assets/bardle.ico" />
 </head>
 <body>
-  <!-- Fundo com efeito glass -->
+
   <div class="background"></div>
 
-  <!-- Container principal -->
   <main class="auth-container">
-    <img src="./assets/bardle.png" alt="Logo Bardle" class="logo">
+
+    <img src="./assets/bardle.png" class="logo">
     <h1 class="app-name">BARDLE</h1>
 
-    <!-- Tela de boas-vindas -->
+    <!-- BOAS-VINDAS -->
     <section id="welcome-screen" class="panel">
       <h2 class="welcome-text">Bem-vindo ao Bardle, sua nova forma interativa de descobrir músicas!</h2>
-      <button id="enter-btn" class="primary">Entre já!</button>
+
+      <button id="enter-btn" class="frutiger-button">
+        <div class="inner"><span class="text">Entre já!</span></div>
+      </button>
     </section>
 
-    <!-- Login -->
+    <!-- LOGIN -->
     <section id="login-form" class="panel hidden">
       <h2>Entrar</h2>
+
       <div class="input-wrapper">
         <i class="fa-solid fa-envelope input-icon"></i>
         <input type="email" id="login-email" placeholder="E-mail">
       </div>
+
       <div class="input-wrapper">
         <i class="fa-solid fa-lock input-icon"></i>
         <input type="password" id="login-password" placeholder="Senha">
       </div>
-      <button id="login-btn" class="primary">Entrar</button>
+
+      <button id="login-btn" class="frutiger-button">
+        <div class="inner"><span class="text">Entrar</span></div>
+      </button>
 
       <button id="google-btn" class="google-btn">
-        <img src="./assets/google-icon.svg" alt="Google"> Entrar com Google
+        <img src="./assets/google-icon.svg" alt=""> Entrar com Google
       </button>
 
       <p class="link">Não tem conta? 
         <span id="to-register" class="register-login-visual highlight-green">Cadastre-se já!</span>
       </p>
+
       <p id="feedback-login" class="feedback"></p>
     </section>
 
-    <!-- Cadastro -->
+    <!-- CADASTRO -->
     <section id="register-form" class="panel hidden">
+
       <div class="register-header">
-        <button id="back-arrow" title="Voltar">&#8592;</button>
+        <button id="back-arrow">&#8592;</button>
         <h2>Criar Conta</h2>
       </div>
 
       <div class="input-wrapper">
         <i class="fa-solid fa-user input-icon"></i>
-        <input type="text" id="reg-nick" placeholder="Nickname">
+        <input id="reg-nick" placeholder="Nickname">
       </div>
+
       <div class="input-wrapper">
         <i class="fa-solid fa-envelope input-icon"></i>
         <input type="email" id="reg-email" placeholder="E-mail">
       </div>
+
       <div class="input-wrapper">
         <i class="fa-solid fa-lock input-icon"></i>
         <input type="password" id="reg-password" placeholder="Senha">
       </div>
+
       <div class="input-wrapper">
         <i class="fa-solid fa-image input-icon"></i>
         <input type="url" id="reg-img" placeholder="URL da imagem de perfil">
       </div>
 
-      <button id="register-btn" class="primary">Cadastrar</button>
+      <button id="register-btn" class="frutiger-button">
+        <div class="inner"><span class="text">Cadastrar</span></div>
+      </button>
+
       <p id="feedback-register" class="feedback"></p>
     </section>
+
   </main>
 
-  <!-- JS principal -->
   <script type="module" src="auth.js"></script>
+
 </body>
 </html>
